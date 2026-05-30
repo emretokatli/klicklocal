@@ -9,6 +9,7 @@ import type {
   Subscription,
   SubscriptionUsageRow,
   Transaction,
+  InstagramProviderSettings,
   UsageRecord,
   Workspace,
 } from '@/types/api';
@@ -114,6 +115,23 @@ export const adminService = {
       `/admin/ai-prompts/${id}/active`,
       { is_active: isActive },
     ).then((d) => d.prompt);
+  },
+
+  providers() {
+    return apiGet<{ providers: InstagramProviderSettings[] }>(
+      '/admin/providers',
+    ).then((d) => d.providers);
+  },
+
+  updateInstagramProvider(payload: {
+    enabled?: boolean;
+    app_id?: string | null;
+    callback_url?: string | null;
+  }) {
+    return apiPut<{ provider: InstagramProviderSettings }>(
+      '/admin/providers/instagram',
+      payload,
+    ).then((d) => d.provider);
   },
 
   usage(params?: { workspace_id?: number; limit?: number }) {

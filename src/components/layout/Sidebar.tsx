@@ -9,9 +9,11 @@ import {
   ImageIcon,
   LayoutDashboard,
   Package,
+  Plug,
   Receipt,
   Settings,
   Shield,
+  Share2,
   SquarePen,
   Tag,
   Users,
@@ -42,6 +44,7 @@ const customerNav: NavItem[] = [
   { href: '/media', label: de.nav.media, icon: ImageIcon },
   { href: '/calendar', label: de.nav.calendar, icon: Calendar },
   { href: '/workspaces', label: de.nav.workspaces, icon: FolderKanban },
+  { href: '/social-accounts', label: de.nav.socialAccounts, icon: Share2 },
   { href: '/billing', label: de.nav.billing, icon: CreditCard },
   { href: '/usage', label: de.nav.usage, icon: BarChart3 },
   { href: '/invoices', label: de.nav.invoices, icon: FileText },
@@ -86,6 +89,15 @@ function buildAdminNav(abilities: UserAbilities | null): NavItem[] {
   }
   if (hasPlatformPermission(abilities ?? undefined, PLATFORM_PERMISSIONS.manageSettings)) {
     items.push({ href: '/admin/settings', label: de.admin.nav.settings, icon: Settings });
+  }
+  if (
+    hasPlatformPermission(abilities ?? undefined, PLATFORM_PERMISSIONS.manageSocialProviders)
+  ) {
+    items.push({
+      href: '/admin/providers',
+      label: de.admin.nav.providers,
+      icon: Plug,
+    });
   }
 
   return items;

@@ -6,6 +6,7 @@ import {
   Bot,
   CreditCard,
   Package,
+  Plug,
   Receipt,
   Tag,
   Users,
@@ -59,6 +60,12 @@ const cards = [
     permission: PLATFORM_PERMISSIONS.viewUsage,
     title: de.admin.dashboard.cards.usage,
     icon: BarChart3,
+  },
+  {
+    href: '/admin/providers',
+    permission: PLATFORM_PERMISSIONS.manageSocialProviders,
+    title: de.admin.dashboard.cards.providers,
+    icon: Plug,
   },
 ];
 

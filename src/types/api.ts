@@ -231,3 +231,39 @@ export type PostStats = {
   failed: number;
   draft: number;
 };
+
+export type SocialAccountStatus =
+  | 'connected'
+  | 'disconnected'
+  | 'expired'
+  | 'error';
+
+export type SocialAccount = {
+  id: number;
+  workspace_id: number;
+  provider: string;
+  provider_account_id: string;
+  account_name: string | null;
+  username: string | null;
+  status: SocialAccountStatus;
+  token_expires_at: string | null;
+  token_expired: boolean;
+  metadata?: Record<string, unknown> | null;
+};
+
+export type InstagramConnectionStatus = {
+  connected: boolean;
+  account: SocialAccount | null;
+};
+
+export type InstagramProviderSettings = {
+  provider: string;
+  enabled: boolean;
+  app_id: string | null;
+  callback_url: string;
+  configured: boolean;
+  has_app_secret: boolean;
+  default_callback_url: string | null;
+  scopes: string[];
+  status: string;
+};

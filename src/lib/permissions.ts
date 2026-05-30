@@ -6,6 +6,7 @@ export const PLATFORM_PERMISSIONS = {
   manageSubscriptions: 'manage_subscriptions',
   manageAiPrompts: 'manage_ai_prompts',
   manageSettings: 'manage_platform_settings',
+  manageSocialProviders: 'manage_social_providers',
   viewUsage: 'view_usage_analytics',
 } as const;
 
