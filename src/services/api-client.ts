@@ -22,9 +22,10 @@ export type ApiRequestConfig = InternalAxiosRequestConfig & {
   skipAuth?: boolean;
 };
 
-const baseURL =
+const baseURL = (
   process.env.NEXT_PUBLIC_API_URL ??
-  'http://localhost:1981/klicklocal/backend/public/api/v1';
+  'http://localhost:1981/klicklocal/backend/public/api/v1'
+).replace(/\/$/, '');
 
 export const apiClient: AxiosInstance = axios.create({
   baseURL,
