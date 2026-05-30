@@ -1,26 +1,134 @@
 @import "tailwindcss";
 
+/* Klicklocal design tokens — from www/index.html */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --surface: #070b0a;
+  --surface-dim: #070b0a;
+  --surface-bright: #11201b;
+  --surface-container-lowest: #050807;
+  --surface-container-low: #0a0f0e;
+  --surface-container: #0a100e;
+  --surface-container-high: #0d1614;
+  --surface-container-highest: #16241f;
+  --on-surface: #eef3f1;
+  --on-surface-variant: #aeb9b8;
+  --on-background: #eef3f1;
+  --background: #070b0a;
+  --primary: #36e0a6;
+  --primary-container: #2bb88a;
+  --on-primary: #04140d;
+  --secondary: #4fe3c8;
+  --secondary-container: #2bb6e8;
+  --tertiary: #9b8cf0;
+  --tertiary-container: #6a4ff0;
+  --outline: #7d8a8b;
+  --outline-variant: #1f2b27;
+  --error: #ff8f7a;
+  --radius: 1rem;
+  --radius-lg: 2rem;
 }
 
 @theme inline {
+  --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-bright: var(--surface-bright);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-on-background: var(--on-background);
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary: var(--primary);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary: var(--on-primary);
+  --color-secondary: var(--secondary);
+  --color-secondary-container: var(--secondary-container);
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-container: var(--tertiary-container);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-error: var(--error);
+  --font-sans: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --radius-DEFAULT: var(--radius);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: 3rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--surface);
+  color: var(--on-surface);
+  font-family: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Ambient background glow (dashboard) */
+.liquid-bg {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(54, 224, 166, 0.16) 0%, transparent 50%),
+    radial-gradient(circle at 10% 10%, rgba(155, 140, 240, 0.12) 0%, transparent 40%);
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  filter: blur(100px);
+}
+
+/* Glass morphism cards */
+.glass-card {
+  background: rgba(255, 255, 255, 0.045);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(54, 224, 166, 0.3);
+}
+
+.glass-card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px -10px rgba(54, 224, 166, 0.18);
+}
+
+/* Primary CTA gradient pill */
+.glow-pill {
+  background: linear-gradient(135deg, #4fe3c8 0%, #36e0a6 55%, #9b8cf0 100%);
+  color: var(--on-primary);
+  box-shadow: 0 0 20px rgba(54, 224, 166, 0.35);
+  transition: all 0.3s ease;
+}
+
+.glow-pill:hover:not(:disabled) {
+  box-shadow: 0 0 30px rgba(54, 224, 166, 0.55);
+  transform: scale(1.02);
+}
+
+.glow-pill:disabled {
+  opacity: 0.5;
+  transform: none;
+}
+
+/* Gradient text (headlines) */
+.text-gradient-brand {
+  background: linear-gradient(to right, var(--secondary), var(--primary), var(--tertiary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Stat / chip accents */
+.chip-primary {
+  background: rgba(54, 224, 166, 0.1);
+  color: var(--primary);
+  border: 0.5px solid rgba(54, 224, 166, 0.25);
+}
+
+.chip-muted {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--on-surface-variant);
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
 }
