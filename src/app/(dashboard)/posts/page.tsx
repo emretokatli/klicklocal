@@ -153,6 +153,19 @@ export default function PostsPage() {
     }
   }
 
+  async function handlePublishNow(post: Post) {
+    try {
+      await mutations.publishNow.mutateAsync({
+        id: post.id,
+        socialAccountIds: instagramAccountIds(),
+      });
+    } catch (e) {
+      setError(
+        e instanceof ApiClientError ? e.message : de.posts.errors.publish,
+      );
+    }
+  }
+
   const columns = [
     {
       key: 'title',
@@ -241,7 +254,10 @@ export default function PostsPage() {
                 title={title}
                 content={content}
                 mediaId={mediaId}
-                mediaOptions={mediaQuery.data ?? []}
+                mediaOptions={(mediaQuery.data ?? []).map((m) => ({
+                  id: m.media.id,
+                  file_name: m.media.file_name,
+                }))}
                 onTitleChange={setTitle}
                 onContentChange={setContent}
                 onMediaIdChange={setMediaId}
@@ -316,7 +332,10 @@ export default function PostsPage() {
             title={title}
             content={content}
             mediaId={mediaId}
-            mediaOptions={mediaQuery.data ?? []}
+            mediaOptions={(mediaQuery.data ?? []).map((m) => ({
+              id: m.media.id,
+              file_name: m.media.file_name,
+            }))}
             onTitleChange={setTitle}
             onContentChange={setContent}
             onMediaIdChange={setMediaId}
