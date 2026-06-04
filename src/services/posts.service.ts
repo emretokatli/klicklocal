@@ -12,15 +12,20 @@ export const postsService = {
     return apiGet<{ post: Post }>(`/posts/${id}`).then((d) => d.post);
   },
 
-  create(workspaceId: number, title: string, content: string) {
+  create(
+    workspaceId: number,
+    payload: { title?: string; content?: string; media_id?: number | null },
+  ) {
     return apiPost<{ post: Post }>('/posts', {
       workspace_id: workspaceId,
-      title,
-      content,
+      ...payload,
     }).then((d) => d.post);
   },
 
-  update(id: number, payload: { title?: string; content?: string }) {
+  update(
+    id: number,
+    payload: { title?: string; content?: string; media_id?: number | null },
+  ) {
     return apiPut<{ post: Post }>(`/posts/${id}`, payload).then((d) => d.post);
   },
 
@@ -28,9 +33,24 @@ export const postsService = {
     return apiDelete<null>(`/posts/${id}`);
   },
 
-  schedule(id: number, scheduledAt: string) {
+  schedule(
+    id: number,
+    scheduledAt: string,
+    socialAccountIds?: number[],
+  ) {
     return apiPost<{ post: Post }>(`/posts/${id}/schedule`, {
       scheduled_at: scheduledAt,
+      ...(socialAccountIds?.length
+        ? { social_account_ids: socialAccountIds }
+        : {}),
+    }).then((d) => d.post);
+  },
+
+  publishNow(id: number, socialAccountIds?: number[]) {
+    return apiPost<{ post: Post }>(`/posts/${id}/publish`, {
+      ...(socialAccountIds?.length
+        ? { social_account_ids: socialAccountIds }
+        : {}),
     }).then((d) => d.post);
   },
 

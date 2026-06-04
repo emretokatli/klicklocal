@@ -201,6 +201,8 @@ export type Post = {
   user_id: number;
   title: string | null;
   content: string | null;
+  media_id: number | null;
+  media?: MediaItem | null;
   status: PostStatus;
   scheduled_at: string | null;
   published_at: string | null;
@@ -256,8 +258,14 @@ export type InstagramConnectionStatus = {
   account: SocialAccount | null;
 };
 
-export type InstagramProviderSettings = {
-  provider: string;
+export type SocialProviderKey = 'facebook' | 'instagram' | 'tiktok';
+
+export type SocialProviderStatus = 'ready' | 'setup' | 'disabled';
+
+export type SocialProviderSettings = {
+  provider: SocialProviderKey;
+  name: string;
+  description: string;
   enabled: boolean;
   app_id: string | null;
   callback_url: string;
@@ -265,5 +273,23 @@ export type InstagramProviderSettings = {
   has_app_secret: boolean;
   default_callback_url: string | null;
   scopes: string[];
-  status: string;
+  api_version: string;
+  status: SocialProviderStatus;
+  setup_title: string;
+  setup_description: string;
+  secret_env_key: string;
+  setup_doc: string | null;
+  before_save: string[];
+  usage_note: string;
+};
+
+/** @deprecated Use SocialProviderSettings */
+export type InstagramProviderSettings = SocialProviderSettings;
+
+export type UpdateSocialProviderPayload = {
+  enabled?: boolean;
+  app_id?: string | null;
+  callback_url?: string | null;
+  api_version?: string | null;
+  scopes?: string[];
 };

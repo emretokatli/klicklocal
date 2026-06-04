@@ -17,8 +17,11 @@ export function usePostMutations(workspaceId: number | null) {
     queryClient.invalidateQueries({ queryKey: ['posts', workspaceId] });
 
   const create = useMutation({
-    mutationFn: (payload: { title: string; content: string }) =>
-      postsService.create(workspaceId!, payload.title, payload.content),
+    mutationFn: (payload: {
+      title?: string;
+      content?: string;
+      media_id?: number | null;
+    }) => postsService.create(workspaceId!, payload),
     onSuccess: invalidate,
   });
 
@@ -30,6 +33,7 @@ export function usePostMutations(workspaceId: number | null) {
       id: number;
       title?: string;
       content?: string;
+      media_id?: number | null;
     }) => postsService.update(id, payload),
     onSuccess: invalidate,
   });
@@ -40,10 +44,28 @@ export function usePostMutations(workspaceId: number | null) {
   });
 
   const schedule = useMutation({
-    mutationFn: ({ id, scheduledAt }: { id: number; scheduledAt: string }) =>
-      postsService.schedule(id, scheduledAt),
+    mutationFn: ({
+      id,
+      scheduledAt,
+      socialAccountIds,
+    }: {
+      id: number;
+      scheduledAt: string;
+      socialAccountIds?: number[];
+    }) => postsService.schedule(id, scheduledAt, socialAccountIds),
     onSuccess: invalidate,
   });
 
-  return { create, update, remove, schedule };
+  const publishNow = useMutation({
+    mutationFn: ({
+      id,
+      socialAccountIds,
+    }: {
+      id: number;
+      socialAccountIds?: number[];
+    }) => postsService.publishNow(id, socialAccountIds),
+    onSuccess: invalidate,
+  });
+
+  return { create, update, remove, schedule, publishNow };
 }

@@ -17,42 +17,13 @@ import {
   WORKFLOW_STEPS,
 } from '@/components/landing/landing-data';
 import { MarketingHeader } from '@/components/landing/MarketingHeader';
+import { MobilePreviewShowcase } from '@/components/landing/MobilePreviewShowcase';
 
 /** Cutout screenshots from www/images/cutout — served via /public/images */
 const CUTOUT = {
   welcome: '/images/cutout/welcome.png',
-  studio: '/images/cutout/Studio.png',
-  plan: '/images/cutout/Plan.png',
-  inbox: '/images/cutout/Inbox.png',
   insight: '/images/cutout/Insight.png',
 } as const;
-
-const SHOWCASE = [
-  {
-    src: CUTOUT.studio,
-    alt: 'KI-Studio: Content erstellen',
-    caption: 'Content erstellen',
-    shadow: 'drop-shadow-[0_20px_50px_rgba(94,233,181,0.18)]',
-  },
-  {
-    src: CUTOUT.plan,
-    alt: 'Content-Kalender: Beiträge planen',
-    caption: 'Beiträge planen',
-    shadow: 'drop-shadow-[0_20px_50px_rgba(123,211,242,0.18)]',
-  },
-  {
-    src: CUTOUT.inbox,
-    alt: 'Posteingang: Nachrichten beantworten',
-    caption: 'Nachrichten beantworten',
-    shadow: 'drop-shadow-[0_20px_50px_rgba(123,211,242,0.18)]',
-  },
-  {
-    src: CUTOUT.insight,
-    alt: 'Insights: Erfolg messen',
-    caption: 'Erfolg messen',
-    shadow: 'drop-shadow-[0_20px_50px_rgba(94,233,181,0.18)]',
-  },
-] as const;
 
 const LOGO_STRIP = [
   '🍕 Bella Pizza',
@@ -152,7 +123,7 @@ export function LandingPage() {
     <div className="landing-page relative font-sans text-base text-on-surface">
       <MarketingHeader />
 
-      <main className="relative overflow-hidden">
+      <main className="relative overflow-x-clip">
         <div className="liquid-bg" aria-hidden />
 
         {/* Hero */}
@@ -396,40 +367,8 @@ export function LandingPage() {
           </div>
         </section>
 
-        {/* App showcase */}
-        <section
-          id="showcase"
-          className="relative z-10 overflow-hidden px-5 py-16 md:px-10"
-        >
-          <div className="reveal mx-auto mb-16 max-w-7xl text-center">
-            <h2 className="mb-6 text-3xl font-semibold">Alles in einer App</h2>
-            <p className="mx-auto max-w-2xl text-base text-on-surface-variant">
-              Vom ersten Entwurf bis zur Erfolgsmessung: Erstelle, plane,
-              beantworte und analysiere deinen Social-Media-Auftritt – ganz ohne
-              Tool-Chaos.
-            </p>
-          </div>
-          <div className="flex snap-x gap-6 overflow-x-auto pb-6 md:justify-center md:gap-10 md:overflow-visible">
-            {SHOWCASE.map((item, i) => (
-              <figure
-                key={item.caption}
-                className="reveal shrink-0 snap-center"
-                style={{ transitionDelay: `${i * 100}ms` }}
-              >
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  width={240}
-                  height={520}
-                  className={`h-auto w-[220px] transition-transform duration-500 hover:-translate-y-2 md:w-[240px] ${item.shadow}`}
-                />
-                <figcaption className="mt-4 text-xs font-semibold uppercase tracking-widest text-on-surface-variant">
-                  {item.caption}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </section>
+        {/* App showcase — sticky mobile preview reacting to scroll */}
+        <MobilePreviewShowcase />
 
         {/* Features */}
         <section

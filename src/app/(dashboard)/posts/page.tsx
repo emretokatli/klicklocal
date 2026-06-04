@@ -1,5 +1,6 @@
 'use client';
 
+import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 
 import { DataTable } from '@/components/shared/DataTable';
@@ -22,6 +23,8 @@ import { usePosts, usePostMutations } from '@/hooks/use-posts';
 import { de } from '@/lib/i18n/de';
 import { formatDate } from '@/lib/utils';
 import { ApiClientError } from '@/services/api-client';
+import { mediaService } from '@/services/media.service';
+import { socialAccountsService } from '@/services/social-accounts.service';
 import type { Post } from '@/types/api';
 import { useWorkspace } from '@/store/workspace-context';
 
@@ -40,7 +43,25 @@ export default function PostsPage() {
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [mediaId, setMediaId] = useState<number | null>(null);
   const [scheduledAt, setScheduledAt] = useState('');
+  const [publishToInstagram, setPublishToInstagram] = useState(true);
+
+  const mediaQuery = useQuery({
+    queryKey: ['media', workspaceId],
+    queryFn: () => mediaService.list(workspaceId!),
+    enabled: workspaceId !== null,
+  });
+
+  const instagramQuery = useQuery({
+    queryKey: ['instagram', 'status', workspaceId],
+    queryFn: () => socialAccountsService.instagramStatus(workspaceId!),
+    enabled: workspaceId !== null,
+  });
+
+  const instagramAccountId = instagramQuery.data?.connected
+    ? instagramQuery.data.account?.id
+    : undefined;
 
   const paginated = useMemo(() => {
     const all = postsQuery.data ?? [];
@@ -56,13 +77,27 @@ export default function PostsPage() {
   function resetForm() {
     setTitle('');
     setContent('');
+    setMediaId(null);
     setScheduledAt('');
+    setPublishToInstagram(true);
     setError(null);
+  }
+
+  function instagramAccountIds(): number[] | undefined {
+    if (!publishToInstagram || instagramAccountId === undefined) {
+      return undefined;
+    }
+
+    return [instagramAccountId];
   }
 
   async function handleCreate() {
     try {
-      await mutations.create.mutateAsync({ title, content });
+      await mutations.create.mutateAsync({
+        title,
+        content,
+        media_id: mediaId,
+      });
       setCreateOpen(false);
       resetForm();
     } catch (e) {
@@ -79,6 +114,7 @@ export default function PostsPage() {
         id: editPost.id,
         title,
         content,
+        media_id: mediaId,
       });
       setEditPost(null);
       resetForm();
@@ -95,6 +131,7 @@ export default function PostsPage() {
       await mutations.schedule.mutateAsync({
         id: schedulePost.id,
         scheduledAt: new Date(scheduledAt).toISOString(),
+        socialAccountIds: instagramAccountIds(),
       });
       setSchedulePost(null);
       resetForm();
@@ -144,21 +181,35 @@ export default function PostsPage() {
               setEditPost(row);
               setTitle(row.title ?? '');
               setContent(row.content ?? '');
+              setMediaId(row.media_id ?? null);
             }}
           >
             {de.posts.edit}
           </Button>
           {(row.status === 'draft' || row.status === 'failed') && (
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={() => {
-                setSchedulePost(row);
-                setScheduledAt('');
-              }}
-            >
-              {de.posts.schedule}
-            </Button>
+            <>
+              {instagramAccountId !== undefined && (
+                <Button
+                  size="sm"
+                  variant="default"
+                  disabled={mutations.publishNow.isPending}
+                  onClick={() => void handlePublishNow(row)}
+                >
+                  {de.posts.publishNow}
+                </Button>
+              )}
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={() => {
+                  setSchedulePost(row);
+                  setScheduledAt('');
+                  setMediaId(row.media_id ?? null);
+                }}
+              >
+                {de.posts.schedule}
+              </Button>
+            </>
           )}
           <Button
             size="sm"
@@ -189,8 +240,11 @@ export default function PostsPage() {
               <PostForm
                 title={title}
                 content={content}
+                mediaId={mediaId}
+                mediaOptions={mediaQuery.data ?? []}
                 onTitleChange={setTitle}
                 onContentChange={setContent}
+                onMediaIdChange={setMediaId}
                 error={error}
                 onSubmit={() => void handleCreate()}
                 submitLabel={de.common.create}
@@ -261,8 +315,11 @@ export default function PostsPage() {
           <PostForm
             title={title}
             content={content}
+            mediaId={mediaId}
+            mediaOptions={mediaQuery.data ?? []}
             onTitleChange={setTitle}
             onContentChange={setContent}
+            onMediaIdChange={setMediaId}
             error={error}
             onSubmit={() => void handleUpdate()}
             submitLabel={de.common.save}
@@ -290,6 +347,17 @@ export default function PostsPage() {
                 onChange={(e) => setScheduledAt(e.target.value)}
               />
             </div>
+            {instagramAccountId !== undefined && (
+              <label className="flex items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={publishToInstagram}
+                  onChange={(e) => setPublishToInstagram(e.target.checked)}
+                  className="h-4 w-4 rounded border-white/20"
+                />
+                {de.posts.publishInstagram}
+              </label>
+            )}
             <Button
               className="w-full"
               disabled={!scheduledAt || mutations.schedule.isPending}
@@ -307,8 +375,11 @@ export default function PostsPage() {
 function PostForm({
   title,
   content,
+  mediaId,
+  mediaOptions,
   onTitleChange,
   onContentChange,
+  onMediaIdChange,
   error,
   onSubmit,
   submitLabel,
@@ -316,8 +387,11 @@ function PostForm({
 }: {
   title: string;
   content: string;
+  mediaId: number | null;
+  mediaOptions: { id: number; file_name: string }[];
   onTitleChange: (v: string) => void;
   onContentChange: (v: string) => void;
+  onMediaIdChange: (v: number | null) => void;
   error: string | null;
   onSubmit: () => void;
   submitLabel: string;
@@ -338,9 +412,26 @@ function PostForm({
           onChange={(e) => onContentChange(e.target.value)}
         />
       </div>
+      <div className="space-y-2">
+        <Label>{de.posts.mediaLabel}</Label>
+        <select
+          className="w-full rounded-md border border-white/20 bg-transparent px-3 py-2 text-sm"
+          value={mediaId ?? ''}
+          onChange={(e) =>
+            onMediaIdChange(e.target.value ? Number(e.target.value) : null)
+          }
+        >
+          <option value="">—</option>
+          {mediaOptions.map((m) => (
+            <option key={m.id} value={m.id}>
+              {m.file_name}
+            </option>
+          ))}
+        </select>
+      </div>
       <Button
         className="w-full"
-        disabled={!title.trim() || !content.trim() || pending}
+        disabled={!content.trim() || pending}
         onClick={onSubmit}
       >
         {submitLabel}

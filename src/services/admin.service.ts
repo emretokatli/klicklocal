@@ -10,6 +10,9 @@ import type {
   SubscriptionUsageRow,
   Transaction,
   InstagramProviderSettings,
+  SocialProviderKey,
+  SocialProviderSettings,
+  UpdateSocialProviderPayload,
   UsageRecord,
   Workspace,
 } from '@/types/api';
@@ -118,20 +121,20 @@ export const adminService = {
   },
 
   providers() {
-    return apiGet<{ providers: InstagramProviderSettings[] }>(
+    return apiGet<{ providers: SocialProviderSettings[] }>(
       '/admin/providers',
     ).then((d) => d.providers);
   },
 
-  updateInstagramProvider(payload: {
-    enabled?: boolean;
-    app_id?: string | null;
-    callback_url?: string | null;
-  }) {
-    return apiPut<{ provider: InstagramProviderSettings }>(
-      '/admin/providers/instagram',
+  updateProvider(provider: SocialProviderKey, payload: UpdateSocialProviderPayload) {
+    return apiPut<{ provider: SocialProviderSettings }>(
+      `/admin/providers/${provider}`,
       payload,
     ).then((d) => d.provider);
+  },
+
+  updateInstagramProvider(payload: UpdateSocialProviderPayload) {
+    return this.updateProvider('instagram', payload);
   },
 
   usage(params?: { workspace_id?: number; limit?: number }) {
