@@ -47,6 +47,103 @@ export const de = {
     registerLink: '/register',
     backHome: 'Zur Startseite',
   },
+  registerWizard: {
+    back: 'Zurück',
+    continue: 'Weiter',
+    continueOptional: 'Weiter (optional)',
+    finish: 'Konto erstellen & starten',
+    finishing: 'Wird eingerichtet…',
+    saving: 'Wird gespeichert…',
+    optionalHint: 'Dieses Feld ist optional.',
+    getStarted: {
+      title: 'Willkommen bei Klicklocal',
+      description:
+        'Lass uns deine Helper einrichten. Das dauert etwa 5 Minuten.',
+      cta: 'Loslegen',
+    },
+    emailOnly: {
+      description:
+        'Gib deine E-Mail-Adresse ein, um zu starten. Du kannst jederzeit unterbrechen und später weitermachen.',
+      placeholder: 'name@unternehmen.de',
+    },
+    yourName: {
+      title: 'Wie heißt du?',
+      label: 'Vorname',
+      placeholder: 'Vorname',
+    },
+    businessName: {
+      title: 'Wie möchtest du deinen Arbeitsbereich nennen?',
+      label: 'Unternehmensname',
+      placeholder: 'Unternehmensname',
+    },
+    website: {
+      title: 'Was ist deine Website?',
+      label: 'Website',
+      placeholder: 'www.dein-unternehmen.de',
+    },
+    kyc: {
+      title: 'Jetzt lass die Helper dein Unternehmen besser kennenlernen',
+      description:
+        'Klicke auf die Buttons unten, um die richtigen Antwortoptionen auszuwählen.',
+      industry: 'In welcher Branche ist dein Unternehmen tätig?',
+      teamSize: 'Wie viele Personen sind in deinem Team?',
+      revenue: 'Wie hoch ist dein monatlicher Umsatz?',
+      customers: 'Woher kommen deine Kunden?',
+      socialMedia: 'Welche Social Media Kanäle nutzt du?',
+    },
+    checkWebsite: {
+      title:
+        'Perfekt! Schauen wir was die Helper von deiner Website gelernt haben',
+      description:
+        'Falls etwas nicht stimmt — du kannst ganz einfach Änderungen vornehmen.',
+    },
+    resultWebsite: {
+      title: 'Erzähle uns von deinem Unternehmen',
+      description:
+        'Bitte gib eine kurze Zusammenfassung darüber, was dein Unternehmen macht und welche Produkte oder Dienstleistungen du anbietest.',
+      placeholder:
+        'Die Helper haben deine Website analysiert — passe den Text bei Bedarf an.',
+    },
+    target: {
+      title: 'Wer ist dein idealer Kunde?',
+      description:
+        'Beschreibe deine Zielgruppe, einschließlich Demografien, Bedürfnisse und Schmerzpunkte.',
+      placeholder:
+        'z. B. Berufstätige Eltern in Berlin, die schnelle und gesunde Mahlzeiten suchen …',
+    },
+    businessSpecial: {
+      title: 'Was macht dich einzigartig?',
+      description:
+        'Was hebt dein Unternehmen von der Konkurrenz ab? Beschreibe dein einzigartiges Wertversprechen.',
+      placeholder:
+        'z. B. Hausgemachte Rezepte, regionale Zutaten und persönlicher Service …',
+    },
+    additional: {
+      title: 'Sonst noch etwas?',
+      description:
+        'Gibt es noch etwas, was du uns über dein Unternehmen oder deine Ziele mitteilen möchtest?',
+      placeholder:
+        'z. B. geplante Expansion, saisonale Angebote oder besondere Ziele …',
+    },
+    start: {
+      title: 'Wo fangen wir an?',
+      description:
+        'Wähle aus, was Klicklocal zuerst für dein Unternehmen lösen soll.',
+    },
+    account: {
+      title: 'Fast geschafft — lege dein Passwort fest',
+      description:
+        'Mit deinem Passwort kannst du jederzeit einloggen und dort weitermachen, wo du aufgehört hast.',
+      passwordHint: 'Mindestens 8 Zeichen.',
+      passwordConfirm: 'Passwort bestätigen',
+    },
+    errors: {
+      analysisFailed:
+        'Website-Analyse fehlgeschlagen. Du kannst die Felder manuell ausfüllen.',
+      setupFailed: 'Einrichtung fehlgeschlagen. Bitte versuche es erneut.',
+      saveFailed: 'Fortschritt konnte nicht gespeichert werden.',
+    },
+  },
   dashboard: {
     title: 'Übersicht',
     overviewFor: (name: string) => `Übersicht für ${name}`,
@@ -419,7 +516,7 @@ export const de = {
   ai: {
     title: 'KI-Studio',
     description:
-      'Erstelle Instagram-Inhalte aus deinem Profil, einem Bild und einer optionalen Idee.',
+      'Erstelle Reel-Skripte, Vorschau in 9:16 und Social Captions aus deinem Unternehmensprofil.',
     noWorkspace: 'Wähle oben einen Workspace.',
     needProfileTitle: 'Unternehmensprofil erforderlich',
     needProfileDesc:
@@ -446,6 +543,57 @@ export const de = {
     historyTitle: 'Verlauf',
     historyEmpty: 'Noch keine Generierungen.',
     emptyResult: 'Noch kein Inhalt generiert. Starte oben.',
+    reelStudio: {
+      badge: 'Reel Director Studio',
+      subtitle: 'KI-Copilot für 15-Sekunden-Reels deines lokalen Unternehmens',
+      setupTitle: 'KI-Copilot Setup',
+      editorTitle: 'Skript feinjustieren',
+      businessContextLabel: 'Dein Unternehmen',
+      businessContextHint: 'Aus deinem Unternehmensprofil — Branche und Name werden automatisch für die KI genutzt.',
+      toneLabel: 'Reel-Stil & Tonalität',
+      tones: {
+        energetic: '⚡ Hochenergetisch & viral (empfohlen)',
+        humorous: '🎭 Humorvoll & locker',
+        painPoint: '🎯 Problemfokussiert (starker Hook)',
+        professional: '💼 Vertrauensvoll & professionell',
+      },
+      generate: 'KI-Skript generieren',
+      generating: 'KI schreibt Skript …',
+      generateFallback:
+        'KI-Generierung fehlgeschlagen. Vorlagen-Skript wurde geladen.',
+      livePreviewHint: 'Die Vorschau aktualisiert sich live beim Tippen.',
+      pacingTitle: '15-Sekunden-Timing',
+      audioLabel: 'Trending Audio Beats',
+      overlayLabel: 'Overlay Safe Zones testen',
+      overlayClean: 'Clean',
+      timelineTitle: 'Timeline',
+      timeline: {
+        hook: 'Hook',
+        solution: 'KI App',
+        features: 'Kanäle',
+        cta: 'Sticker & CTA',
+      },
+      scenes: {
+        hook: 'Szene 1 (0–3s) — Hook',
+        solution: 'Szene 2 (3–7s) — Lösung',
+        features: 'Szene 3 (7–11s) — Features',
+        cta: 'Szene 4 (11–15s) — Brand & CTA',
+      },
+      badges: {
+        hook: 'Anxious Client',
+        solution: 'Klicklocal App',
+        features: 'Rapid Schedule',
+        cta: 'Tagline & Sticker',
+      },
+      captionTitle: 'Smart Social Caption',
+      copyCaption: 'Caption kopieren',
+      exportTitle: 'Director Export',
+      exportDescription:
+        'Exportiere Timing, Captions und Metadaten für dein Creation-Team.',
+      copyScript: 'Komplettes Skript kopieren',
+      exportCopied: 'Export kopiert!',
+      copied: 'Kopiert!',
+    },
   },
   onboarding: {
     title: 'Willkommen bei Klicklocal',

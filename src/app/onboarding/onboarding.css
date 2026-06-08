@@ -1,0 +1,22 @@
+.onboarding-page {
+  background-color: var(--surface);
+  background-image: radial-gradient(
+    ellipse 80% 50% at 50% -10%,
+    rgba(54, 224, 166, 0.08) 0%,
+    transparent 55%
+  );
+}
+
+.onboarding-progress-track {
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.onboarding-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--primary), var(--tertiary));
+  transition: width 0.35s ease;
+}

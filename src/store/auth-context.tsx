@@ -27,12 +27,18 @@ type AuthContextValue = {
   setWorkspaceScopeId: (id: number | null) => void;
   hasPermission: (permission: string) => boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string) => Promise<void>;
+  registerEmail: (email: string) => Promise<void>;
   logout: () => Promise<void>;
   isLoggingOut: boolean;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
+
+function resolvePostAuthPath(session: AuthSession): string {
+  if (session.is_platform_admin) return '/admin/dashboard';
+  if (!session.onboarding_completed) return '/onboarding';
+  return '/dashboard';
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -59,22 +65,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     onSuccess: async () => {
       await queryClient.resetQueries();
       const me = await authService.me();
-      router.replace(
-        me.is_platform_admin ? '/admin/dashboard' : '/dashboard',
-      );
+      router.replace(resolvePostAuthPath(me));
     },
   });
 
-  const registerMutation = useMutation({
-    mutationFn: ({
-      name,
-      email,
-      password,
-    }: {
-      name: string;
-      email: string;
-      password: string;
-    }) => authService.register(name, email, password),
+  const registerEmailMutation = useMutation({
+    mutationFn: (email: string) => authService.registerEmail(email),
     onSuccess: async () => {
       await queryClient.resetQueries();
       router.replace('/onboarding');
@@ -96,11 +92,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [loginMutation],
   );
 
-  const register = useCallback(
-    async (name: string, email: string, password: string) => {
-      await registerMutation.mutateAsync({ name, email, password });
+  const registerEmail = useCallback(
+    async (email: string) => {
+      await registerEmailMutation.mutateAsync(email);
     },
-    [registerMutation],
+    [registerEmailMutation],
   );
 
   const logout = useCallback(async () => {
@@ -124,7 +120,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setWorkspaceScopeId,
     hasPermission,
     login,
-    register,
+    registerEmail,
     logout,
     isLoggingOut: logoutMutation.isPending,
   };

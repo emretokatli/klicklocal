@@ -42,14 +42,13 @@ export function BusinessProfileForm({
 
   const valid =
     businessName.trim() !== '' &&
-    businessType.trim() !== '' &&
-    city.trim() !== '';
+    businessType.trim() !== '';
 
   function handleSubmit() {
     onSubmit({
       business_name: businessName.trim(),
       business_type: businessType,
-      city: city.trim(),
+      city: city.trim() || null,
       description: description.trim() || null,
       tone_of_voice: toneOfVoice || null,
       products_services: productsServices.trim() || null,

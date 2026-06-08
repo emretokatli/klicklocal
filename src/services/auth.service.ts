@@ -4,11 +4,21 @@ import type { AuthSession, User } from '@/types/api';
 
 export const authService = {
   async login(email: string, password: string) {
-    const data = await apiPost<{ user: User; token: string }>(
-      '/auth/login',
-      { email, password },
-      { skipAuth: true },
-    );
+    const data = await apiPost<{
+      user: User;
+      token: string;
+      onboarding_completed: boolean;
+    }>('/auth/login', { email, password }, { skipAuth: true });
+    setToken(data.token);
+    return data;
+  },
+
+  async registerEmail(email: string) {
+    const data = await apiPost<{
+      user: User;
+      token: string;
+      resumed: boolean;
+    }>('/auth/register-email', { email }, { skipAuth: true });
     setToken(data.token);
     return data;
   },

@@ -14,6 +14,9 @@ export type User = {
   id: number;
   name: string;
   email: string;
+  onboarding_step?: string | null;
+  onboarding_completed_at?: string | null;
+  onboarding_data?: Record<string, unknown> | null;
 };
 
 export type UserAbilities = {
@@ -29,6 +32,9 @@ export type AuthSession = {
   is_platform_admin: boolean;
   subscription_limits: Record<string, number | boolean | null>;
   billing?: BillingOverview | null;
+  onboarding_completed: boolean;
+  onboarding_step?: string | null;
+  onboarding_data?: Record<string, unknown> | null;
 };
 
 export type AdminUser = User & {
@@ -199,15 +205,33 @@ export type BusinessProfile = {
   description: string | null;
   tone_of_voice: string | null;
   products_services: string | null;
+  website?: string | null;
+  team_size?: string | null;
+  monthly_revenue?: string | null;
+  customer_source?: string | null;
+  social_media_channels?: string[] | null;
+  target_audience?: string | null;
+  unique_value_proposition?: string | null;
+  additional_notes?: string | null;
+  primary_goal?: string | null;
 };
 
 export type BusinessProfileInput = {
   business_name: string;
   business_type: string;
-  city: string;
+  city?: string | null;
   description?: string | null;
   tone_of_voice?: string | null;
   products_services?: string | null;
+  website?: string | null;
+  team_size?: string | null;
+  monthly_revenue?: string | null;
+  customer_source?: string | null;
+  social_media_channels?: string[] | null;
+  target_audience?: string | null;
+  unique_value_proposition?: string | null;
+  additional_notes?: string | null;
+  primary_goal?: string | null;
 };
 
 export type AiGeneration = {

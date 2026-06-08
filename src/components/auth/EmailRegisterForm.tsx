@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { AuthShell } from '@/components/auth/AuthShell';
@@ -10,20 +11,21 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { de } from '@/lib/i18n/de';
 import { ApiClientError } from '@/services/api-client';
-import { useAuth } from '@/store/auth-context';
+import { authService } from '@/services/auth.service';
 
-export function AuthForm() {
-  const { login } = useAuth();
+export function EmailRegisterForm() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
   async function handleSubmit() {
     setError(null);
     setPending(true);
+
     try {
-      await login(email, password);
+      await authService.registerEmail(email.trim());
+      router.replace('/onboarding');
     } catch (e) {
       setError(
         e instanceof ApiClientError ? e.message : de.common.genericError,
@@ -34,12 +36,12 @@ export function AuthForm() {
   }
 
   return (
-    <AuthShell isRegister={false}>
+    <AuthShell isRegister>
       <Card className="glass-card border-white/10 shadow-[0_24px_64px_rgba(0,0,0,0.45)]">
         <CardHeader className="space-y-1 pb-2">
-          <CardTitle className="text-2xl">{de.auth.signIn}</CardTitle>
+          <CardTitle className="text-2xl">{de.registerWizard.getStarted.title}</CardTitle>
           <p className="text-sm text-on-surface-variant">
-            Melde dich an, um dein Dashboard zu öffnen.
+            {de.registerWizard.emailOnly.description}
           </p>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -49,37 +51,29 @@ export function AuthForm() {
             </p>
           )}
           <div className="space-y-2">
-            <Label htmlFor="email">{de.auth.email}</Label>
+            <Label htmlFor="register-email">{de.auth.email}</Label>
             <Input
-              id="email"
+              id="register-email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder={de.registerWizard.emailOnly.placeholder}
               autoComplete="email"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">{de.auth.password}</Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
+              autoFocus
             />
           </div>
           <Button
             className="glow-pill w-full border-0 font-bold"
-            disabled={pending}
+            disabled={pending || !email.trim().includes('@')}
             onClick={() => void handleSubmit()}
           >
-            {pending ? de.auth.pleaseWait : de.auth.signIn}
+            {pending ? de.auth.pleaseWait : de.registerWizard.getStarted.cta}
           </Button>
           <Link
-            href={de.auth.registerLink}
+            href="/login"
             className="block w-full text-center text-sm text-on-surface-variant transition-colors hover:text-primary"
           >
-            {de.auth.needAccount}
+            {de.auth.hasAccount}
           </Link>
           <Link
             href="/"

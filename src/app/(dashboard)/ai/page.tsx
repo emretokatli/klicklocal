@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { AiGeneratorPanel } from '@/components/ai/AiGeneratorPanel';
+import { ReelStudio } from '@/components/ai/reel-studio/ReelStudio';
 import { GeneratedContentCard } from '@/components/ai/GeneratedContentCard';
 import { BusinessProfileForm } from '@/components/business/BusinessProfileForm';
 import { EmptyState } from '@/components/shared/EmptyState';
@@ -121,38 +121,32 @@ export default function AiStudioPage() {
         </p>
       )}
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <div>
-          <AiGeneratorPanel
-            workspaceId={workspaceId}
-            onCreatePost={(g) => void handleCreatePost(g)}
-            creatingPost={postMutations.create.isPending}
-          />
-        </div>
+      <ReelStudio
+        workspaceId={workspaceId}
+        profile={profile}
+        onGenerated={() => void historyQuery.refetch()}
+      />
 
-        <div className="space-y-3">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-on-surface-variant">
-            {de.ai.historyTitle}
-          </h2>
-          {historyQuery.isLoading ? (
-            <LoadingSpinner />
-          ) : (historyQuery.data?.length ?? 0) === 0 ? (
-            <p className="text-sm text-on-surface-variant">
-              {de.ai.historyEmpty}
-            </p>
-          ) : (
-            <div className="space-y-4">
-              {historyQuery.data!.map((g) => (
-                <GeneratedContentCard
-                  key={g.id}
-                  generation={g}
-                  onCreatePost={(gen) => void handleCreatePost(gen)}
-                  creatingPost={postMutations.create.isPending}
-                />
-              ))}
-            </div>
-          )}
-        </div>
+      <div className="mt-10 space-y-3">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-on-surface-variant">
+          {de.ai.historyTitle}
+        </h2>
+        {historyQuery.isLoading ? (
+          <LoadingSpinner />
+        ) : (historyQuery.data?.length ?? 0) === 0 ? (
+          <p className="text-sm text-on-surface-variant">{de.ai.historyEmpty}</p>
+        ) : (
+          <div className="grid gap-4 lg:grid-cols-2">
+            {historyQuery.data!.map((generation) => (
+              <GeneratedContentCard
+                key={generation.id}
+                generation={generation}
+                onCreatePost={(gen) => void handleCreatePost(gen)}
+                creatingPost={postMutations.create.isPending}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
