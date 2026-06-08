@@ -296,6 +296,11 @@ export type InstagramConnectionStatus = {
   account: SocialAccount | null;
 };
 
+export type TikTokConnectionStatus = {
+  connected: boolean;
+  account: SocialAccount | null;
+};
+
 export type SocialProviderKey = 'facebook' | 'instagram' | 'tiktok';
 
 export type SocialProviderStatus = 'ready' | 'setup' | 'disabled';

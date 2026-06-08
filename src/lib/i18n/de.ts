@@ -325,7 +325,7 @@ export const de = {
   },
   socialAccounts: {
     title: 'Social Accounts',
-    description: 'Verbinde Instagram Business-Konten mit deinem Workspace',
+    description: 'Verbinde Social-Media-Konten mit deinem Workspace',
     noWorkspace: 'Wähle einen Workspace in der Kopfzeile.',
     instagram: {
       title: 'Instagram Business',
@@ -343,6 +343,23 @@ export const de = {
       successConnected: 'Instagram erfolgreich verbunden.',
       successDisconnected: 'Instagram-Verbindung getrennt.',
       errorOAuth: 'Instagram-Anmeldung abgebrochen oder fehlgeschlagen.',
+    },
+    tiktok: {
+      title: 'TikTok',
+      connect: 'TikTok verbinden',
+      disconnect: 'Verbindung trennen',
+      connected: 'Verbunden',
+      disconnected: 'Nicht verbunden',
+      expired: 'Token abgelaufen',
+      accountName: 'Konto',
+      username: 'Anzeigename',
+      tokenExpiry: 'Token läuft ab',
+      tokenExpired: 'Abgelaufen — bitte erneut verbinden',
+      connectFailed: 'Verbindung fehlgeschlagen.',
+      disconnectFailed: 'Trennen fehlgeschlagen.',
+      successConnected: 'TikTok erfolgreich verbunden.',
+      successDisconnected: 'TikTok-Verbindung getrennt.',
+      errorOAuth: 'TikTok-Anmeldung abgebrochen oder fehlgeschlagen.',
     },
   },
   calendar: {
