@@ -722,17 +722,18 @@ export function LandingPage() {
               { href: '#pricing', label: 'Preise' },
               { href: '#faq', label: 'FAQ' },
               { href: '#contact', label: 'Kontakt' },
-              { href: '#impressum', label: 'Impressum' },
-              { href: '#datenschutz', label: 'Datenschutz' },
-              { href: '#agb', label: 'AGB' },
+              { href: '/impressum', label: 'Impressum' },
+              { href: '/datenschutz', label: 'Datenschutz' },
+              { href: '/agb', label: 'AGB' },
+              { href: '/widerruf', label: 'Widerruf' },
             ].map(({ href, label }) => (
-              <a
+              <Link
                 key={label}
                 href={href}
                 className="text-sm text-on-surface-variant opacity-80 transition-colors hover:text-primary hover:opacity-100"
               >
                 {label}
-              </a>
+              </Link>
             ))}
           </nav>
           <p className="text-sm text-on-surface-variant">

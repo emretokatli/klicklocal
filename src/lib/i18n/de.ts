@@ -17,6 +17,7 @@ export const de = {
   },
   nav: {
     dashboard: 'Übersicht',
+    aiStudio: 'KI-Studio',
     posts: 'Beiträge',
     media: 'Medien',
     calendar: 'Kalender',
@@ -350,6 +351,138 @@ export const de = {
     emptyTitle: 'Kalenderansicht',
     emptyDesc:
       'Ein Drag-and-drop-Kalender für geplante Beiträge folgt in einer späteren Version. Nutze bis dahin die Seite „Beiträge“ zum Planen.',
+  },
+  business: {
+    title: 'Unternehmensprofil',
+    description:
+      'Diese Angaben verwendet die KI, um Inhalte auf deine Marke zuzuschneiden.',
+    businessName: 'Unternehmensname',
+    businessNamePlaceholder: 'z. B. Café Sonnenschein',
+    businessType: 'Branche',
+    businessTypePlaceholder: 'Branche wählen',
+    city: 'Stadt',
+    cityPlaceholder: 'z. B. Berlin',
+    descriptionLabel: 'Kurzbeschreibung',
+    descriptionPlaceholder:
+      'Was macht dein Unternehmen besonders? (1–2 Sätze)',
+    toneOfVoice: 'Tonalität',
+    toneOfVoicePlaceholder: 'Tonalität wählen',
+    productsServices: 'Produkte & Dienstleistungen',
+    productsServicesPlaceholder:
+      'z. B. Frühstück, hausgemachte Kuchen, Spezialitätenkaffee',
+    save: 'Profil speichern',
+    saved: 'Unternehmensprofil gespeichert.',
+    saveFailed: 'Profil konnte nicht gespeichert werden.',
+    emptyTitle: 'Noch kein Unternehmensprofil',
+    emptyDesc:
+      'Lege dein Unternehmensprofil an, damit die KI passende Inhalte erstellen kann.',
+    types: {
+      restaurant: 'Restaurant',
+      cafe: 'Café',
+      bar: 'Bar / Kneipe',
+      bakery: 'Bäckerei',
+      barber: 'Friseur / Barbier',
+      beauty: 'Kosmetik / Beauty',
+      nails: 'Nagelstudio',
+      fitness: 'Fitnessstudio',
+      retail: 'Einzelhandel',
+      hotel: 'Hotel / Pension',
+      handcraft: 'Handwerk',
+      other: 'Sonstiges',
+    },
+    tones: {
+      friendly: 'Freundlich & einladend',
+      professional: 'Professionell',
+      casual: 'Locker & humorvoll',
+      premium: 'Edel & hochwertig',
+      energetic: 'Energiegeladen',
+      family: 'Familiär & herzlich',
+    },
+  },
+  ai: {
+    title: 'KI-Studio',
+    description:
+      'Erstelle Instagram-Inhalte aus deinem Profil, einem Bild und einer optionalen Idee.',
+    noWorkspace: 'Wähle oben einen Workspace.',
+    needProfileTitle: 'Unternehmensprofil erforderlich',
+    needProfileDesc:
+      'Lege zuerst dein Unternehmensprofil an, damit die KI Inhalte erstellen kann.',
+    goToProfile: 'Zum Unternehmensprofil',
+    imageLabel: 'Bild (optional)',
+    imageHint: 'Wähle ein Bild aus deiner Mediathek für bessere Ergebnisse.',
+    noImage: 'Kein Bild',
+    promptLabel: 'Deine Idee (optional)',
+    promptPlaceholder:
+      'z. B. Neues Sommermenü, Wochenend-Special, neue Öffnungszeiten …',
+    generate: 'Inhalt generieren',
+    generating: 'Wird generiert …',
+    generateFailed: 'Inhalt konnte nicht generiert werden.',
+    resultTitle: 'Generierter Inhalt',
+    caption: 'Instagram-Caption',
+    storyText: 'Story-Text',
+    hashtags: 'Hashtags',
+    callToAction: 'Call-to-Action',
+    copy: 'Kopieren',
+    copied: 'Kopiert!',
+    createPost: 'Als Beitrag übernehmen',
+    postCreated: 'Beitrag aus KI-Inhalt erstellt.',
+    historyTitle: 'Verlauf',
+    historyEmpty: 'Noch keine Generierungen.',
+    emptyResult: 'Noch kein Inhalt generiert. Starte oben.',
+  },
+  onboarding: {
+    title: 'Willkommen bei Klicklocal',
+    subtitle: 'In 4 Schritten zu deinem ersten KI-Beitrag.',
+    next: 'Weiter',
+    back: 'Zurück',
+    skip: 'Überspringen',
+    finish: 'Fertig – zum Dashboard',
+    stepLabel: (current: number, total: number) =>
+      `Schritt ${current} von ${total}`,
+    steps: {
+      business: 'Unternehmen anlegen',
+      instagram: 'Instagram verbinden',
+      generate: 'Ersten Beitrag generieren',
+      schedule: 'Ersten Beitrag planen',
+    },
+    business: {
+      title: 'Erzähl uns von deinem Unternehmen',
+      description:
+        'Diese Angaben braucht die KI, um Inhalte in deiner Stimme zu erstellen.',
+    },
+    instagram: {
+      title: 'Instagram verbinden',
+      description:
+        'Verbinde dein Instagram-Business-Konto, um direkt zu veröffentlichen. Du kannst diesen Schritt überspringen.',
+      connect: 'Instagram verbinden',
+      connected: 'Instagram verbunden',
+      connectFailed: 'Verbindung fehlgeschlagen.',
+    },
+    generate: {
+      title: 'Generiere deinen ersten Beitrag',
+      description:
+        'Lade ein Bild hoch (optional), gib eine Idee ein und lass die KI deinen Beitrag erstellen.',
+      createAndContinue: 'Beitrag erstellen & weiter',
+      created: 'Beitrag erstellt!',
+    },
+    schedule: {
+      title: 'Plane deinen ersten Beitrag',
+      description:
+        'Wähle einen Zeitpunkt für die Veröffentlichung oder veröffentliche sofort.',
+      when: 'Veröffentlichen am',
+      schedule: 'Beitrag planen',
+      scheduled: 'Beitrag geplant!',
+      skipSchedule: 'Später planen',
+    },
+    done: {
+      title: 'Geschafft! 🎉',
+      description:
+        'Du hast deinen ersten KI-Beitrag erstellt. Verwalte alles in deinem Dashboard.',
+    },
+    errors: {
+      noWorkspace: 'Konnte keinen Workspace erstellen.',
+      generic: 'Etwas ist schiefgelaufen.',
+    },
   },
 } as const;
 

@@ -186,6 +186,44 @@ export type Workspace = {
   timezone: string;
   owner_id?: number;
   owner?: User;
+  onboarding_step?: number;
+  onboarding_completed_at?: string | null;
+};
+
+export type BusinessProfile = {
+  id: number;
+  workspace_id: number;
+  business_name: string;
+  business_type: string | null;
+  city: string | null;
+  description: string | null;
+  tone_of_voice: string | null;
+  products_services: string | null;
+};
+
+export type BusinessProfileInput = {
+  business_name: string;
+  business_type: string;
+  city: string;
+  description?: string | null;
+  tone_of_voice?: string | null;
+  products_services?: string | null;
+};
+
+export type AiGeneration = {
+  id: number;
+  workspace_id: number;
+  user_id: number | null;
+  media_id: number | null;
+  prompt: string | null;
+  caption: string;
+  story_text: string | null;
+  hashtags: string[] | null;
+  call_to_action: string | null;
+  model: string | null;
+  tokens_used: number;
+  created_at: string;
+  media?: Pick<MediaItem, 'id' | 'file_name' | 'file_path'> | null;
 };
 
 export type PostStatus =

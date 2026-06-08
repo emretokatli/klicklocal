@@ -16,6 +16,11 @@ function buildBackendHeaders(request: NextRequest): Headers {
     headers.set('Content-Type', contentType);
   }
 
+  const workspaceId = request.headers.get('x-workspace-id');
+  if (workspaceId) {
+    headers.set('X-Workspace-Id', workspaceId);
+  }
+
   headers.set('Accept', 'application/json');
 
   return headers;
@@ -58,7 +63,7 @@ async function proxyToBackend(
       {
         success: false,
         message:
-          'Cannot reach the API server. Set BACKEND_API_URL in Vercel to https://gastrocycle.com/public/api/v1',
+          'Cannot reach the API server. Set BACKEND_API_URL to the Laravel API base, e.g. https://api.klicklocal.app/api/v1 (production) or https://api-test.klicklocal.app/api/v1 (staging).',
         detail: message,
       },
       { status: 502 },

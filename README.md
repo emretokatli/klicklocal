@@ -41,19 +41,28 @@ Then restart `npm run dev`. On the same PC, `http://localhost:3000` also works a
 
 Sign-in uses `/api/v1` proxied to XAMPP on port **1981** — keep Apache/MySQL running.
 
-## Deploy to Vercel (UAT API)
+## Deploy to Vercel
 
 Repo: [github.com/emretokatli/klicklocal](https://github.com/emretokatli/klicklocal)
 
-Set in Vercel **Environment Variables** (Production):
+Production deploys from `main`; staging from `develop`. Set per-environment
+**Environment Variables** in Vercel — never hardcode endpoints.
+
+Production:
 
 ```env
 NEXT_PUBLIC_API_URL=/api/v1
-BACKEND_API_URL=https://gastrocycle.com/public/api/v1
-NEXT_PUBLIC_STORAGE_URL=https://gastrocycle.com/public/storage
+BACKEND_API_URL=https://api.klicklocal.app/api/v1
+NEXT_PUBLIC_STORAGE_URL=https://api.klicklocal.app/storage
 ```
 
-Or direct API: `NEXT_PUBLIC_API_URL=https://gastrocycle.com/public/api/v1` (requires CORS on backend).
+Staging:
+
+```env
+NEXT_PUBLIC_API_URL=/api/v1
+BACKEND_API_URL=https://api-test.klicklocal.app/api/v1
+NEXT_PUBLIC_STORAGE_URL=https://api-test.klicklocal.app/storage
+```
 
 Full guide: [docs/VERCEL-DEPLOY.md](../docs/VERCEL-DEPLOY.md)
 

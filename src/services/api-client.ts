@@ -4,7 +4,7 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from 'axios';
 
-import { clearToken, getToken } from '@/lib/token';
+import { clearToken, getStoredWorkspaceId, getToken } from '@/lib/token';
 import type { ApiError, ApiSuccess } from '@/types/api';
 
 export class ApiClientError extends Error {
@@ -37,6 +37,11 @@ apiClient.interceptors.request.use((config: ApiRequestConfig) => {
     const token = getToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    const workspaceId = getStoredWorkspaceId();
+    if (workspaceId !== null && config.headers['X-Workspace-Id'] === undefined) {
+      config.headers['X-Workspace-Id'] = String(workspaceId);
     }
   }
 

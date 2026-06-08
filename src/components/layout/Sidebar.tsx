@@ -14,6 +14,7 @@ import {
   Settings,
   Shield,
   Share2,
+  Sparkles,
   SquarePen,
   Tag,
   Users,
@@ -40,6 +41,7 @@ type NavItem = {
 
 const customerNav: NavItem[] = [
   { href: '/dashboard', label: de.nav.dashboard, icon: LayoutDashboard },
+  { href: '/ai', label: de.nav.aiStudio, icon: Sparkles },
   { href: '/posts', label: de.nav.posts, icon: SquarePen },
   { href: '/media', label: de.nav.media, icon: ImageIcon },
   { href: '/calendar', label: de.nav.calendar, icon: Calendar },

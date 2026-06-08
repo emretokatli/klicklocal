@@ -77,7 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }) => authService.register(name, email, password),
     onSuccess: async () => {
       await queryClient.resetQueries();
-      router.replace('/dashboard');
+      router.replace('/onboarding');
     },
   });
 

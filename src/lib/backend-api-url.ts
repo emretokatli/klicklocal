@@ -10,10 +10,13 @@ export function getBackendApiUrl(): string {
     return publicUrl.replace(/\/$/, '');
   }
 
-  // Vercel: NEXT_PUBLIC_API_URL=/api/v1 → proxy must not use localhost
-  if (process.env.VERCEL) {
-    return 'https://gastrocycle.com/public/api/v1';
+  // Deployed environments (Vercel / production / staging) must never fall back to
+  // localhost. Set BACKEND_API_URL explicitly; this is only a last-resort default
+  // that points at the production API.
+  if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
+    return 'https://api.klicklocal.app/api/v1';
   }
 
+  // Local development only.
   return 'http://localhost:1981/klicklocal/backend/public/api/v1';
 }
