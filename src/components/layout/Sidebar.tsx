@@ -1,13 +1,11 @@
 'use client';
 
 import {
+  BarChart3,
   Bot,
-  Calendar,
   CreditCard,
-  FileText,
-  FolderKanban,
-  ImageIcon,
   LayoutDashboard,
+  MessageCircle,
   Package,
   Plug,
   Receipt,
@@ -18,7 +16,6 @@ import {
   SquarePen,
   Tag,
   Users,
-  BarChart3,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -40,17 +37,13 @@ type NavItem = {
 };
 
 const customerNav: NavItem[] = [
-  { href: '/dashboard', label: de.nav.dashboard, icon: LayoutDashboard },
-  { href: '/ai', label: de.nav.aiStudio, icon: Sparkles },
-  { href: '/posts', label: de.nav.posts, icon: SquarePen },
-  { href: '/media', label: de.nav.media, icon: ImageIcon },
-  { href: '/calendar', label: de.nav.calendar, icon: Calendar },
-  { href: '/workspaces', label: de.nav.workspaces, icon: FolderKanban },
+  { href: '/dashboard',       label: de.nav.dashboard,      icon: LayoutDashboard },
+  { href: '/ai',              label: de.nav.aiStudio,       icon: Sparkles },
+  { href: '/posts',           label: de.nav.posts,          icon: SquarePen },
   { href: '/social-accounts', label: de.nav.socialAccounts, icon: Share2 },
-  { href: '/billing', label: de.nav.billing, icon: CreditCard },
-  { href: '/usage', label: de.nav.usage, icon: BarChart3 },
-  { href: '/invoices', label: de.nav.invoices, icon: FileText },
-  { href: '/settings', label: de.nav.settings, icon: Settings },
+  { href: '/comments',        label: de.nav.comments,       icon: MessageCircle },
+  { href: '/billing',         label: de.nav.billing,        icon: CreditCard },
+  { href: '/settings',        label: de.nav.settings,       icon: Settings },
 ];
 
 function buildAdminNav(abilities: UserAbilities | null): NavItem[] {

@@ -4,6 +4,7 @@ import { Building2, RefreshCw, Sparkles } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { NativeSelect } from '@/components/ui/native-select';
 import type { ReelTone } from '@/lib/reel-studio/types';
 import type { BusinessProfile } from '@/types/api';
 import { de } from '@/lib/i18n/de';
@@ -49,17 +50,16 @@ export function ReelCopilotPanel({
 
       <div className="space-y-1.5">
         <Label htmlFor="reel-tone">{copy.toneLabel}</Label>
-        <select
+        <NativeSelect
           id="reel-tone"
           value={selectedTone}
           onChange={(e) => onToneChange(e.target.value as ReelTone)}
-          className="h-10 w-full rounded-xl border border-white/10 bg-surface-container-high px-3 text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40"
         >
           <option value="energetic">{copy.tones.energetic}</option>
           <option value="humorous">{copy.tones.humorous}</option>
           <option value="pain-point">{copy.tones.painPoint}</option>
           <option value="professional">{copy.tones.professional}</option>
-        </select>
+        </NativeSelect>
       </div>
 
       <Button className="w-full gap-2" disabled={isGenerating} onClick={onGenerate}>

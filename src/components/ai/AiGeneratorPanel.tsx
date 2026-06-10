@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { GeneratedContentCard } from '@/components/ai/GeneratedContentCard';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { NativeSelect } from '@/components/ui/native-select';
 import { Textarea } from '@/components/ui/textarea';
 import { useGenerateContent } from '@/hooks/use-ai';
 import { de } from '@/lib/i18n/de';
@@ -58,9 +59,8 @@ export function AiGeneratorPanel({
       <div className="space-y-4 glass-card rounded-2xl p-5">
         <div className="space-y-2">
           <Label htmlFor="ai-media">{de.ai.imageLabel}</Label>
-          <select
+          <NativeSelect
             id="ai-media"
-            className="h-10 w-full rounded-xl border border-white/10 bg-surface-container-high px-3 py-2 text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40"
             value={mediaId ?? ''}
             onChange={(e) =>
               setMediaId(e.target.value ? Number(e.target.value) : null)
@@ -72,7 +72,7 @@ export function AiGeneratorPanel({
                 {m.media.file_name}
               </option>
             ))}
-          </select>
+          </NativeSelect>
           <p className="text-xs text-on-surface-variant">{de.ai.imageHint}</p>
         </div>
 

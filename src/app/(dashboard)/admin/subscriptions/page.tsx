@@ -8,6 +8,14 @@ import { PageHeader } from '@/components/shared/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -33,6 +41,11 @@ export default function AdminSubscriptionsPage() {
   const [workspaceId, setWorkspaceId] = useState('');
   const [planId, setPlanId] = useState('');
   const [error, setError] = useState<string | null>(null);
+
+  const [demoOpen, setDemoOpen] = useState(false);
+  const [demoWorkspaceId, setDemoWorkspaceId] = useState('');
+  const [demoDays, setDemoDays] = useState('14');
+  const [demoNotice, setDemoNotice] = useState<string | null>(null);
 
   const subsQuery = useQuery({
     queryKey: ['admin', 'subscriptions'],
@@ -77,6 +90,22 @@ export default function AdminSubscriptionsPage() {
     },
   });
 
+  const demoMutation = useMutation({
+    mutationFn: () =>
+      adminService.grantDemo(Number(demoWorkspaceId), Number(demoDays)),
+    onSuccess: () => {
+      setDemoNotice(de.admin.subscriptions.demoSuccess);
+      setDemoWorkspaceId('');
+      setDemoDays('14');
+      void queryClient.invalidateQueries({ queryKey: ['admin', 'subscriptions'] });
+    },
+    onError: (e: Error) => {
+      setDemoNotice(
+        e instanceof ApiClientError ? e.message : de.admin.subscriptions.demoFailed,
+      );
+    },
+  });
+
   if (!hasPermission('manage_subscriptions')) {
     return <p className="text-sm text-on-surface-variant">{de.common.noData}</p>;
   }
@@ -86,7 +115,64 @@ export default function AdminSubscriptionsPage() {
       <PageHeader
         title={de.admin.subscriptions.title}
         description={de.admin.subscriptions.description}
+        action={
+          <Button variant="outline" onClick={() => { setDemoNotice(null); setDemoOpen(true); }}>
+            {de.admin.subscriptions.demo}
+          </Button>
+        }
       />
+
+      <Dialog open={demoOpen} onOpenChange={setDemoOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{de.admin.subscriptions.demoTitle}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 pt-2">
+            <div className="space-y-1.5">
+              <Label className="text-xs text-on-surface-variant">
+                {de.admin.subscriptions.selectWorkspace}
+              </Label>
+              <Select value={demoWorkspaceId} onValueChange={setDemoWorkspaceId}>
+                <SelectTrigger>
+                  <SelectValue placeholder={de.admin.subscriptions.selectWorkspace} />
+                </SelectTrigger>
+                <SelectContent>
+                  {workspacesQuery.data?.map((ws) => (
+                    <SelectItem key={ws.id} value={String(ws.id)}>
+                      {ws.name} ({ws.owner?.email ?? ws.id})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs text-on-surface-variant" htmlFor="demo-days">
+                {de.admin.subscriptions.demoDays}
+              </Label>
+              <Input
+                id="demo-days"
+                type="number"
+                min={1}
+                max={365}
+                value={demoDays}
+                onChange={(e) => setDemoDays(e.target.value)}
+              />
+            </div>
+            {demoNotice && (
+              <p className={`text-sm ${demoNotice === de.admin.subscriptions.demoSuccess ? 'text-primary' : 'text-error'}`}>
+                {demoNotice}
+              </p>
+            )}
+            <Button
+              className="w-full"
+              disabled={!demoWorkspaceId || !demoDays || demoMutation.isPending}
+              onClick={() => demoMutation.mutate()}
+            >
+              {de.admin.subscriptions.demoStart}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <Card className="mb-6">
         <CardContent className="flex flex-col gap-3 pt-6 sm:flex-row sm:items-end">

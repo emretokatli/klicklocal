@@ -14,8 +14,13 @@ export function useGenerateContent(workspaceId: number | null) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (payload: { media_id?: number | null; prompt?: string | null }) =>
-      aiService.generate(workspaceId!, payload),
+    mutationFn: (payload: {
+      media_id?: number | null;
+      prompt?: string | null;
+      platform?: string | null;
+      content_type?: string | null;
+      seo_focus?: string | null;
+    }) => aiService.generate(workspaceId!, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['ai-generations', workspaceId],

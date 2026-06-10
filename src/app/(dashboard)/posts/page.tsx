@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 
+import { SubscriptionGate } from '@/components/billing/SubscriptionGate';
 import { DataTable } from '@/components/shared/DataTable';
 import { EmptyState } from '@/components/shared/EmptyState';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
@@ -18,6 +19,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { NativeSelect } from '@/components/ui/native-select';
 import { Textarea } from '@/components/ui/textarea';
 import { usePosts, usePostMutations } from '@/hooks/use-posts';
 import { de } from '@/lib/i18n/de';
@@ -237,6 +239,7 @@ export default function PostsPage() {
   ];
 
   return (
+    <SubscriptionGate>
     <div>
       <PageHeader
         title={de.posts.title}
@@ -388,6 +391,7 @@ export default function PostsPage() {
         </DialogContent>
       </Dialog>
     </div>
+    </SubscriptionGate>
   );
 }
 
@@ -433,8 +437,7 @@ function PostForm({
       </div>
       <div className="space-y-2">
         <Label>{de.posts.mediaLabel}</Label>
-        <select
-          className="w-full rounded-md border border-white/20 bg-transparent px-3 py-2 text-sm"
+        <NativeSelect
           value={mediaId ?? ''}
           onChange={(e) =>
             onMediaIdChange(e.target.value ? Number(e.target.value) : null)
@@ -446,7 +449,7 @@ function PostForm({
               {m.file_name}
             </option>
           ))}
-        </select>
+        </NativeSelect>
       </div>
       <Button
         className="w-full"

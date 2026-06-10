@@ -22,7 +22,11 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { de } from '@/lib/i18n/de';
-import { platformRoleLabel } from '@/lib/permissions';
+import {
+  filterPlatformRoles,
+  isSuperAdmin,
+  platformRoleLabel,
+} from '@/lib/permissions';
 import { ApiClientError } from '@/services/api-client';
 import { adminService } from '@/services/admin.service';
 import { useAuth } from '@/store/auth-context';
@@ -31,7 +35,8 @@ const PLATFORM_ROLES = ['super_admin', 'admin', 'support'] as const;
 
 export default function AdminUsersPage() {
   const queryClient = useQueryClient();
-  const { hasPermission } = useAuth();
+  const { hasPermission, abilities } = useAuth();
+  const canManagePlatformRoles = isSuperAdmin(abilities ?? undefined);
   const [error, setError] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
@@ -44,7 +49,7 @@ export default function AdminUsersPage() {
 
   const saveMutation = useMutation({
     mutationFn: ({ id, roles }: { id: number; roles: string[] }) =>
-      adminService.updateUserRoles(id, roles),
+      adminService.updateUserRoles(id, filterPlatformRoles(roles)),
     onSuccess: () => {
       setEditingId(null);
       setError(null);
@@ -87,12 +92,15 @@ export default function AdminUsersPage() {
                   <TableCell>{u.name}</TableCell>
                   <TableCell>{u.email}</TableCell>
                   <TableCell>
-                    {u.platform_roles?.length
-                      ? u.platform_roles.map(platformRoleLabel).join(', ')
-                      : de.admin.users.noRoles}
+                    {(() => {
+                      const roles = filterPlatformRoles(u.platform_roles);
+                      return roles.length
+                        ? roles.map(platformRoleLabel).join(', ')
+                        : de.admin.users.noRoles;
+                    })()}
                   </TableCell>
                   <TableCell>
-                    {editingId === u.id ? (
+                    {canManagePlatformRoles && editingId === u.id ? (
                       <div className="flex flex-col gap-2">
                         <Select
                           value={selectedRoles[0] ?? '__none__'}
@@ -136,17 +144,19 @@ export default function AdminUsersPage() {
                           </Button>
                         </div>
                       </div>
-                    ) : (
+                    ) : canManagePlatformRoles ? (
                       <Button
                         size="sm"
                         variant="outline"
                         onClick={() => {
                           setEditingId(u.id);
-                          setSelectedRoles(u.platform_roles ?? []);
+                          setSelectedRoles(filterPlatformRoles(u.platform_roles));
                         }}
                       >
                         {de.posts.edit}
                       </Button>
+                    ) : (
+                      <span className="text-xs text-on-surface-variant">—</span>
                     )}
                   </TableCell>
                 </TableRow>

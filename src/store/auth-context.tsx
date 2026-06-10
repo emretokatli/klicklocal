@@ -6,8 +6,8 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useState,
+  useSyncExternalStore,
   type ReactNode,
 } from 'react';
 
@@ -34,21 +34,20 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+const subscribeNoop = () => () => {};
+const getTrue = () => true;
+const getFalse = () => false;
+
 function resolvePostAuthPath(session: AuthSession): string {
   if (session.is_platform_admin) return '/admin/dashboard';
-  if (!session.onboarding_completed) return '/onboarding';
   return '/dashboard';
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [tokenReady, setTokenReady] = useState(false);
+  const tokenReady = useSyncExternalStore(subscribeNoop, getTrue, getFalse);
   const [workspaceScopeId, setWorkspaceScopeId] = useState<number | null>(null);
-
-  useEffect(() => {
-    setTokenReady(true);
-  }, []);
 
   const meQuery = useQuery({
     queryKey: ['auth', 'me', workspaceScopeId],

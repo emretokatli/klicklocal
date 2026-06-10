@@ -35,23 +35,27 @@ export default function SocialAccountsPage() {
     const tiktokResult = searchParams.get('tiktok');
     const message = searchParams.get('message');
 
-    if (instagramResult === 'connected') {
-      setToast(de.socialAccounts.instagram.successConnected);
-      void queryClient.invalidateQueries({
-        queryKey: ['instagram', 'status', workspaceId],
-      });
-    } else if (instagramResult === 'error') {
-      setError(message ?? de.socialAccounts.instagram.errorOAuth);
-    }
+    const timer = setTimeout(() => {
+      if (instagramResult === 'connected') {
+        setToast(de.socialAccounts.instagram.successConnected);
+        void queryClient.invalidateQueries({
+          queryKey: ['instagram', 'status', workspaceId],
+        });
+      } else if (instagramResult === 'error') {
+        setError(message ?? de.socialAccounts.instagram.errorOAuth);
+      }
 
-    if (tiktokResult === 'connected') {
-      setToast(de.socialAccounts.tiktok.successConnected);
-      void queryClient.invalidateQueries({
-        queryKey: ['tiktok', 'status', workspaceId],
-      });
-    } else if (tiktokResult === 'error') {
-      setError(message ?? de.socialAccounts.tiktok.errorOAuth);
-    }
+      if (tiktokResult === 'connected') {
+        setToast(de.socialAccounts.tiktok.successConnected);
+        void queryClient.invalidateQueries({
+          queryKey: ['tiktok', 'status', workspaceId],
+        });
+      } else if (tiktokResult === 'error') {
+        setError(message ?? de.socialAccounts.tiktok.errorOAuth);
+      }
+    }, 0);
+
+    return () => { clearTimeout(timer); };
   }, [searchParams, queryClient, workspaceId]);
 
   if (!workspaceId) {

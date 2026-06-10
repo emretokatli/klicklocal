@@ -37,27 +37,11 @@ export function CompleteOnboardingGuard({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
-/** Blocks dashboard access until user onboarding is complete */
+/** Previously blocked dashboard access; now just handles loading state */
 export function OnboardingGate({ children }: { children: ReactNode }) {
-  const router = useRouter();
-  const { isLoading, isAuthenticated, session, isPlatformAdmin } = useAuth();
-
-  useEffect(() => {
-    if (isLoading || !isAuthenticated || isPlatformAdmin) return;
-    if (session && !session.onboarding_completed) {
-      router.replace('/onboarding');
-    }
-  }, [isAuthenticated, isLoading, isPlatformAdmin, router, session]);
+  const { isLoading } = useAuth();
 
   if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
-  }
-
-  if (isAuthenticated && !isPlatformAdmin && session && !session.onboarding_completed) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <LoadingSpinner />
@@ -68,33 +52,7 @@ export function OnboardingGate({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
-/** Redirects authenticated users with incomplete onboarding away from marketing home */
+/** Previously redirected incomplete onboarding users from home; now just renders children */
 export function HomeOnboardingRedirect({ children }: { children: ReactNode }) {
-  const router = useRouter();
-  const { isLoading, isAuthenticated, session, isPlatformAdmin } = useAuth();
-
-  useEffect(() => {
-    if (isLoading || !isAuthenticated || isPlatformAdmin) return;
-    if (session && !session.onboarding_completed) {
-      router.replace('/onboarding');
-    }
-  }, [isAuthenticated, isLoading, isPlatformAdmin, router, session]);
-
-  if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
-  }
-
-  if (isAuthenticated && !isPlatformAdmin && session && !session.onboarding_completed) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <LoadingSpinner />
-      </div>
-    );
-  }
-
   return <>{children}</>;
 }

@@ -55,15 +55,21 @@ export function ReelStudio({ workspaceId, profile, onGenerated }: ReelStudioProp
   const [editedCta, setEditedCta] = useState(scriptData.scene4Cta);
 
   useEffect(() => {
-    setScriptData(INITIAL_REEL_SCRIPTS[language]);
+    const scripts = INITIAL_REEL_SCRIPTS[language];
+    const timer = setTimeout(() => { setScriptData(scripts); }, 0);
+    return () => { clearTimeout(timer); };
   }, [language]);
 
   useEffect(() => {
-    setEditedHook(scriptData.scene1Hook);
-    setEditedSolution(scriptData.scene2Solution);
-    setEditedFeatures(scriptData.scene3Features);
-    setEditedTagline(scriptData.scene4Tagline);
-    setEditedCta(scriptData.scene4Cta);
+    const snap = scriptData;
+    const timer = setTimeout(() => {
+      setEditedHook(snap.scene1Hook);
+      setEditedSolution(snap.scene2Solution);
+      setEditedFeatures(snap.scene3Features);
+      setEditedTagline(snap.scene4Tagline);
+      setEditedCta(snap.scene4Cta);
+    }, 0);
+    return () => { clearTimeout(timer); };
   }, [scriptData]);
 
   const currentScript = useMemo<ReelScriptData>(

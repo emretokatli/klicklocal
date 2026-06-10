@@ -62,6 +62,13 @@ export const adminService = {
     return apiDelete<null>(`/admin/subscriptions/${id}`);
   },
 
+  grantDemo(workspaceId: number, days: number) {
+    return apiPost<{ subscription: Subscription }>('/admin/subscriptions/demo', {
+      workspace_id: workspaceId,
+      days,
+    }).then((d) => d.subscription);
+  },
+
   transactions(limit = 100) {
     return apiGet<{ transactions: Transaction[] }>(
       `/admin/transactions?limit=${limit}`,

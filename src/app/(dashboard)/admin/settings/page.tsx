@@ -28,7 +28,9 @@ export default function AdminSettingsPage() {
   });
 
   useEffect(() => {
-    if (query.data) setForm(query.data);
+    if (!query.data) return;
+    const timer = setTimeout(() => { setForm(query.data!); }, 0);
+    return () => { clearTimeout(timer); };
   }, [query.data]);
 
   const saveMutation = useMutation({

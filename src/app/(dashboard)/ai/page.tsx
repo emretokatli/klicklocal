@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 
+import { KiStudioPostCreator } from '@/components/ai/ki-studio/KiStudioPostCreator';
 import { ReelStudio } from '@/components/ai/reel-studio/ReelStudio';
 import { GeneratedContentCard } from '@/components/ai/GeneratedContentCard';
+import { SubscriptionGate } from '@/components/billing/SubscriptionGate';
 import { BusinessProfileForm } from '@/components/business/BusinessProfileForm';
 import { EmptyState } from '@/components/shared/EmptyState';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
@@ -25,6 +27,8 @@ import { de } from '@/lib/i18n/de';
 import { ApiClientError } from '@/services/api-client';
 import type { AiGeneration } from '@/types/api';
 import { useWorkspace } from '@/store/workspace-context';
+
+type Tab = 'reel-studio' | 'post-creator';
 
 function buildPostContent(generation: AiGeneration): string {
   const parts = [generation.caption.trim()];
@@ -64,6 +68,49 @@ export default function AiStudioPage() {
       </div>
     );
   }
+
+  return (
+    <SubscriptionGate>
+      <AiStudioContent
+        workspaceId={workspaceId}
+        profileQuery={profileQuery}
+        saveProfile={saveProfile}
+        historyQuery={historyQuery}
+        postMutations={postMutations}
+        profileError={profileError}
+        setProfileError={setProfileError}
+        notice={notice}
+        setNotice={setNotice}
+        handleCreatePost={handleCreatePost}
+      />
+    </SubscriptionGate>
+  );
+}
+
+function AiStudioContent({
+  workspaceId,
+  profileQuery,
+  saveProfile,
+  historyQuery,
+  postMutations,
+  profileError,
+  setProfileError,
+  notice,
+  setNotice,
+  handleCreatePost,
+}: {
+  workspaceId: number;
+  profileQuery: ReturnType<typeof useBusinessProfile>;
+  saveProfile: ReturnType<typeof useSaveBusinessProfile>;
+  historyQuery: ReturnType<typeof useAiHistory>;
+  postMutations: ReturnType<typeof usePostMutations>;
+  profileError: string | null;
+  setProfileError: (v: string | null) => void;
+  notice: string | null;
+  setNotice: (v: string | null) => void;
+  handleCreatePost: (generation: AiGeneration) => Promise<void>;
+}) {
+  const [activeTab, setActiveTab] = useState<Tab>('post-creator');
 
   if (profileQuery.isLoading) {
     return (
@@ -121,12 +168,47 @@ export default function AiStudioPage() {
         </p>
       )}
 
-      <ReelStudio
-        workspaceId={workspaceId}
-        profile={profile}
-        onGenerated={() => void historyQuery.refetch()}
-      />
+      {/* Tab navigation */}
+      <div className="mb-6 flex gap-1 border-b border-white/10">
+        {(
+          [
+            { key: 'post-creator', label: de.ai.tabPostCreator },
+            { key: 'reel-studio', label: de.ai.tabReelStudio },
+          ] as { key: Tab; label: string }[]
+        ).map(({ key, label }) => (
+          <button
+            key={key}
+            type="button"
+            onClick={() => setActiveTab(key)}
+            className={`-mb-px px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
+              activeTab === key
+                ? 'border-primary text-primary'
+                : 'border-transparent text-on-surface-variant hover:text-on-surface'
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
 
+      {/* Tab content */}
+      {activeTab === 'reel-studio' && (
+        <ReelStudio
+          workspaceId={workspaceId}
+          profile={profile}
+          onGenerated={() => void historyQuery.refetch()}
+        />
+      )}
+
+      {activeTab === 'post-creator' && (
+        <KiStudioPostCreator
+          workspaceId={workspaceId}
+          profile={profile}
+          onGenerated={() => void historyQuery.refetch()}
+        />
+      )}
+
+      {/* History — always visible below tabs */}
       <div className="mt-10 space-y-3">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-on-surface-variant">
           {de.ai.historyTitle}

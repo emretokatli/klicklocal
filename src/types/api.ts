@@ -98,6 +98,13 @@ export type BillingOverview = {
   available_plans?: Plan[];
 };
 
+export type TopupPackage = {
+  key: string;
+  label: string;
+  amount: number;
+  price: number;
+};
+
 export type Transaction = {
   id: number;
   subscription_id: number;
@@ -246,6 +253,10 @@ export type AiGeneration = {
   call_to_action: string | null;
   model: string | null;
   tokens_used: number;
+  platform: string | null;
+  content_type: string | null;
+  seo_focus: string | null;
+  generated_image_url: string | null;
   created_at: string;
   media?: Pick<MediaItem, 'id' | 'file_name' | 'file_path'> | null;
 };
@@ -287,6 +298,19 @@ export type MediaWithUrl = {
   media: MediaItem;
   url: string;
 };
+
+export interface Comment {
+  id: number;
+  workspace_id: number;
+  post_id: number | null;
+  platform: 'instagram' | 'tiktok' | 'facebook' | 'linkedin';
+  external_id: string | null;
+  author: string;
+  text: string;
+  sentiment: 'positive' | 'neutral' | 'negative';
+  commented_at: string | null;
+  created_at: string;
+}
 
 export type PostStats = {
   total: number;

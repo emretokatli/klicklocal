@@ -7,7 +7,6 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useState,
   type ReactNode,
 } from 'react';
 
@@ -34,35 +33,21 @@ export function AppModeProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const { isPlatformAdmin } = useAuth();
-  const [mode, setModeState] = useState<AppMode>('customer');
+  const mode = useMemo<AppMode>(() => {
+    if (!isPlatformAdmin) return 'customer';
+    if (pathname.startsWith('/admin')) return 'admin';
+    if (pathname === '/login' || pathname === '/register') return 'customer';
+    if (typeof window !== 'undefined' && readStoredMode() === 'admin') return 'admin';
+    return 'customer';
+  }, [isPlatformAdmin, pathname]);
 
   useEffect(() => {
-    if (pathname.startsWith('/admin')) {
-      setModeState('admin');
-      sessionStorage.setItem(MODE_KEY, 'admin');
-      return;
-    }
-    if (!pathname.startsWith('/admin') && pathname !== '/login' && pathname !== '/register') {
-      const stored = readStoredMode();
-      if (stored === 'admin' && isPlatformAdmin) {
-        return;
-      }
-      setModeState('customer');
-      sessionStorage.setItem(MODE_KEY, 'customer');
-    }
-  }, [pathname, isPlatformAdmin]);
-
-  useEffect(() => {
-    if (!isPlatformAdmin && mode === 'admin') {
-      setModeState('customer');
-      sessionStorage.setItem(MODE_KEY, 'customer');
-    }
-  }, [isPlatformAdmin, mode]);
+    if (typeof window !== 'undefined') sessionStorage.setItem(MODE_KEY, mode);
+  }, [mode]);
 
   const setMode = useCallback(
     (next: AppMode) => {
       if (next === 'admin' && !isPlatformAdmin) return;
-      setModeState(next);
       sessionStorage.setItem(MODE_KEY, next);
       router.push(next === 'admin' ? '/admin/dashboard' : '/dashboard');
     },

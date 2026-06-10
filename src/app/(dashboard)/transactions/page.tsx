@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
 
-export default function InvoicesPage() {
+export default function TransactionsPage() {
   redirect('/billing');
 }

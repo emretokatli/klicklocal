@@ -37,7 +37,7 @@ export const SelectContent = React.forwardRef<
     <SelectPrimitive.Content
       ref={ref}
       className={cn(
-        'relative z-50 min-w-[8rem] overflow-hidden rounded-xl border border-white/10 bg-surface-container-highest shadow-lg',
+        'relative z-50 min-w-[8rem] overflow-hidden rounded-xl border border-white/10 bg-surface-container-highest text-on-surface shadow-lg',
         className,
       )}
       position={position}
@@ -56,7 +56,7 @@ export const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      'relative flex w-full cursor-pointer select-none items-center rounded-lg py-2 pl-8 pr-2 text-sm text-on-surface outline-none focus:bg-primary/10',
+      'relative flex w-full cursor-pointer select-none items-center rounded-lg py-2 pl-8 pr-2 text-sm text-on-surface outline-none focus:bg-primary/10 data-[highlighted]:bg-primary/15 data-[highlighted]:text-on-surface data-[state=checked]:text-primary',
       className,
     )}
     {...props}

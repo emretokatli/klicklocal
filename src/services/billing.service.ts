@@ -1,5 +1,5 @@
 import { apiGet, apiPost } from '@/services/api-client';
-import type { BillingOverview, Invoice, Subscription } from '@/types/api';
+import type { BillingOverview, Invoice, Subscription, TopupPackage, Transaction } from '@/types/api';
 
 function withWorkspace(workspaceId: number, path: string) {
   return `${path}?workspace_id=${workspaceId}`;
@@ -39,5 +39,24 @@ export const billingService = {
     return apiGet<{ invoices: Invoice[] }>(
       withWorkspace(workspaceId, '/invoices'),
     ).then((d) => d.invoices);
+  },
+
+  transactions(workspaceId: number) {
+    return apiGet<{ transactions: Transaction[] }>(
+      withWorkspace(workspaceId, '/transactions'),
+    ).then((d) => d.transactions);
+  },
+
+  topupPackages(workspaceId: number) {
+    return apiGet<{ packages: TopupPackage[] }>(
+      withWorkspace(workspaceId, '/quota/packages'),
+    ).then((d) => d.packages);
+  },
+
+  purchaseTopup(workspaceId: number, packageKey: string) {
+    return apiPost<{ addon: object }>(
+      withWorkspace(workspaceId, '/quota/topup'),
+      { workspace_id: workspaceId, package_key: packageKey },
+    );
   },
 };

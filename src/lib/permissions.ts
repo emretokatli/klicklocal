@@ -10,12 +10,27 @@ export const PLATFORM_PERMISSIONS = {
   viewUsage: 'view_usage_analytics',
 } as const;
 
+export const PLATFORM_ROLE_NAMES = ['super_admin', 'admin', 'support'] as const;
+
+export type PlatformRoleName = (typeof PLATFORM_ROLE_NAMES)[number];
+
+export function isSuperAdmin(abilities: UserAbilities | undefined): boolean {
+  return abilities?.platform_roles.includes('super_admin') ?? false;
+}
+
+export function filterPlatformRoles(roles: string[] | undefined): PlatformRoleName[] {
+  if (!roles?.length) return [];
+  return roles.filter((role): role is PlatformRoleName =>
+    (PLATFORM_ROLE_NAMES as readonly string[]).includes(role),
+  );
+}
+
 export function hasPlatformPermission(
   abilities: UserAbilities | undefined,
   permission: string,
 ): boolean {
   if (!abilities) return false;
-  if (abilities.platform_roles.includes('super_admin')) return true;
+  if (isSuperAdmin(abilities)) return true;
   return abilities.platform_permissions.includes(permission);
 }
 

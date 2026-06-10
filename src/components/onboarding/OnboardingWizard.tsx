@@ -71,16 +71,17 @@ export function OnboardingWizard() {
 
   useEffect(() => {
     if (!statusQuery.data || hydrated) return;
-
-    const saved = mergeOnboardingData(statusQuery.data.onboarding_data);
-    setData(saved);
-
-    const savedStep = statusQuery.data.onboarding_step;
-    if (isOnboardingWizardStep(savedStep)) {
-      setStep(savedStep);
-    }
-
-    setHydrated(true);
+    const snap = statusQuery.data;
+    const timer = setTimeout(() => {
+      const saved = mergeOnboardingData(snap.onboarding_data);
+      setData(saved);
+      const savedStep = snap.onboarding_step;
+      if (isOnboardingWizardStep(savedStep)) {
+        setStep(savedStep);
+      }
+      setHydrated(true);
+    }, 0);
+    return () => { clearTimeout(timer); };
   }, [hydrated, statusQuery.data]);
 
   const patch = useCallback((partial: Partial<OnboardingWizardData>) => {
@@ -190,7 +191,8 @@ export function OnboardingWizard() {
 
   useEffect(() => {
     if (step !== 'check-website' || analysisStarted || !hydrated) return;
-    void runWebsiteAnalysis();
+    const timer = setTimeout(() => { void runWebsiteAnalysis(); }, 0);
+    return () => { clearTimeout(timer); };
   }, [analysisStarted, hydrated, runWebsiteAnalysis, step]);
 
   async function handleFinish() {

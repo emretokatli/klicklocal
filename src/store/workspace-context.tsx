@@ -6,6 +6,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
   type ReactNode,
 } from 'react';
@@ -31,34 +32,31 @@ const WorkspaceContext = createContext<WorkspaceContextValue | null>(null);
 
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const { setWorkspaceScopeId } = useAuth();
-  const [workspaceId, setWorkspaceIdState] = useState<number | null>(null);
+  const [manualWorkspaceId, setManualWorkspaceIdState] = useState<number | null>(null);
 
   const query = useQuery({
     queryKey: ['workspaces'],
     queryFn: () => workspacesService.list(),
   });
 
-  useEffect(() => {
-    if (!query.data?.length) return;
-
+  const workspaceId = useMemo<number | null>(() => {
+    if (manualWorkspaceId !== null) return manualWorkspaceId;
+    if (!query.data?.length) return null;
     const stored = getStoredWorkspaceId();
-    const valid = stored && query.data.some((w) => w.id === stored);
+    if (stored && query.data.some((w) => w.id === stored)) return stored;
+    return query.data[0].id;
+  }, [manualWorkspaceId, query.data]);
 
-    if (valid) {
-      setWorkspaceIdState(stored);
-    } else {
-      const first = query.data[0].id;
-      setWorkspaceIdState(first);
-      setStoredWorkspaceId(first);
-    }
-  }, [query.data]);
+  useEffect(() => {
+    if (workspaceId !== null) setStoredWorkspaceId(workspaceId);
+  }, [workspaceId]);
 
   useEffect(() => {
     setWorkspaceScopeId(workspaceId);
   }, [workspaceId, setWorkspaceScopeId]);
 
   const setWorkspaceId = useCallback((id: number) => {
-    setWorkspaceIdState(id);
+    setManualWorkspaceIdState(id);
     setStoredWorkspaceId(id);
   }, []);
 

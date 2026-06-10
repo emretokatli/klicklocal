@@ -54,6 +54,16 @@ export const postsService = {
     }).then((d) => d.post);
   },
 
+  quickPublish(
+    workspaceId: number,
+    data: { platform: string; content: string; media_id?: number | null },
+  ) {
+    return apiPost<{ post_id: number; message: string }>(
+      '/posts/quick-publish',
+      data,
+    );
+  },
+
   computeStats(posts: Post[]): PostStats {
     return posts.reduce(
       (acc, post) => {

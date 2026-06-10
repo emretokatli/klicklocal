@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 
 import { SocialProviderIcon } from '@/components/admin/providers/SocialProviderIcon';
+import { NativeSelect } from '@/components/ui/native-select';
 
 import { Logo } from '@/components/brand/Logo';
 import { Button } from '@/components/ui/button';
@@ -174,20 +175,20 @@ function SoundPicker({
     <div className="flex items-center justify-between rounded-xl border border-white/10 bg-surface-container-high p-2.5">
       <div>
         <p className="text-[9px] text-on-surface-variant">{audioLabel}</p>
-        <select
+        <NativeSelect
           value={selectedSound.id}
           onChange={(e) => {
             const sound = REEL_SOUND_STYLES.find((item) => item.id === e.target.value);
             if (sound) onSoundChange(sound);
           }}
-          className="bg-transparent text-[11px] font-semibold text-on-surface focus:outline-none"
+          className="h-auto border-0 bg-transparent px-0 py-0 text-[11px] font-semibold focus:ring-0"
         >
           {REEL_SOUND_STYLES.map((sound) => (
             <option key={sound.id} value={sound.id}>
               {sound.name}
             </option>
           ))}
-        </select>
+        </NativeSelect>
       </div>
       <span className="font-mono text-[10px] text-tertiary">{selectedSound.tempo} BPM</span>
     </div>

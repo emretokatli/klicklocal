@@ -34,20 +34,22 @@ export default function AdminProvidersPage() {
 
   useEffect(() => {
     if (!query.data?.length) return;
-
-    setForms((current) => {
-      const next = { ...current };
-      for (const provider of query.data) {
-        next[provider.provider] = provider;
-      }
-      return next;
-    });
-
-    setSelectedProvider((current) =>
-      query.data.some((provider) => provider.provider === current)
-        ? current
-        : query.data[0].provider,
-    );
+    const snapshot = query.data;
+    const timer = setTimeout(() => {
+      setForms((current) => {
+        const next = { ...current };
+        for (const provider of snapshot) {
+          next[provider.provider] = provider;
+        }
+        return next;
+      });
+      setSelectedProvider((current) =>
+        snapshot.some((provider) => provider.provider === current)
+          ? current
+          : snapshot[0].provider,
+      );
+    }, 0);
+    return () => { clearTimeout(timer); };
   }, [query.data]);
 
   const activeProvider = useMemo(

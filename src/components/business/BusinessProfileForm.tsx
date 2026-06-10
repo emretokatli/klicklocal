@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { NativeSelect } from '@/components/ui/native-select';
 import { Textarea } from '@/components/ui/textarea';
 import { de } from '@/lib/i18n/de';
 import type { BusinessProfile, BusinessProfileInput } from '@/types/api';
@@ -76,9 +77,8 @@ export function BusinessProfileForm({
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="business_type">{de.business.businessType}</Label>
-          <select
+          <NativeSelect
             id="business_type"
-            className="h-10 w-full rounded-xl border border-white/10 bg-surface-container-high px-3 py-2 text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40"
             value={businessType}
             onChange={(e) => setBusinessType(e.target.value)}
           >
@@ -88,7 +88,7 @@ export function BusinessProfileForm({
                 {label}
               </option>
             ))}
-          </select>
+          </NativeSelect>
         </div>
 
         <div className="space-y-2">
@@ -104,9 +104,8 @@ export function BusinessProfileForm({
 
       <div className="space-y-2">
         <Label htmlFor="tone_of_voice">{de.business.toneOfVoice}</Label>
-        <select
+        <NativeSelect
           id="tone_of_voice"
-          className="h-10 w-full rounded-xl border border-white/10 bg-surface-container-high px-3 py-2 text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40"
           value={toneOfVoice}
           onChange={(e) => setToneOfVoice(e.target.value)}
         >
@@ -116,7 +115,7 @@ export function BusinessProfileForm({
               {label}
             </option>
           ))}
-        </select>
+        </NativeSelect>
       </div>
 
       <div className="space-y-2">
