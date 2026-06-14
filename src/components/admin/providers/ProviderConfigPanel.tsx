@@ -60,8 +60,8 @@ export function ProviderConfigPanel({
   });
 
   return (
-    <Card className="border-white/10">
-      <CardHeader className="space-y-4 border-b border-white/5 pb-6">
+    <Card className="border-outline-soft">
+      <CardHeader className="space-y-4 border-b border-outline-faint pb-6">
         <div className="flex flex-wrap items-start gap-4">
           <SocialProviderIcon provider={provider.provider} size="lg" />
           <div className="min-w-0 flex-1 space-y-2">
@@ -77,7 +77,7 @@ export function ProviderConfigPanel({
       </CardHeader>
 
       <CardContent className="space-y-6 pt-6">
-        <div className="rounded-2xl border border-white/10 bg-surface-container-high/60 p-5">
+        <div className="rounded-2xl border border-outline-soft bg-surface-container-high/60 p-5">
           <h3 className="mb-2 text-sm font-semibold text-on-surface">
             {provider.setup_title}
           </h3>
@@ -186,7 +186,7 @@ export function ProviderConfigPanel({
         </div>
 
         <div className="grid gap-4 lg:grid-cols-2">
-          <div className="rounded-2xl border border-white/10 bg-surface-container-high/40 p-5">
+          <div className="rounded-2xl border border-outline-soft bg-surface-container-high/40 p-5">
             <h3 className="mb-3 text-sm font-semibold text-on-surface">
               {labels.beforeSave}
             </h3>
@@ -200,7 +200,7 @@ export function ProviderConfigPanel({
             </ul>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-surface-container-high/40 p-5">
+          <div className="rounded-2xl border border-outline-soft bg-surface-container-high/40 p-5">
             <h3 className="mb-3 text-sm font-semibold text-on-surface">
               {labels.usedByChannels}
             </h3>
@@ -215,7 +215,7 @@ export function ProviderConfigPanel({
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/5 pt-6">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-outline-faint pt-6">
           <p className="max-w-xl text-xs text-on-surface-variant">
             {labels.pageNote}
           </p>

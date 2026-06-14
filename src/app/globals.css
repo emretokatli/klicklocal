@@ -1,7 +1,11 @@
 @import "tailwindcss";
 
-/* Klicklocal design tokens — from www/index.html */
-:root {
+/* Klicklocal design tokens — from www/index.html
+   Dark is the default theme. `html.light` overrides the tokens below.
+   `.force-dark` re-applies dark tokens to subtrees that must stay dark
+   (marketing landing, auth, onboarding) regardless of the user theme. */
+:root,
+html.light .force-dark {
   --surface: #070b0a;
   --surface-dim: #070b0a;
   --surface-bright: #11201b;
@@ -26,6 +30,74 @@
   --error: #ff8f7a;
   --radius: 1rem;
   --radius-lg: 2rem;
+
+  /* Subtle borders (replaces border-white/N) */
+  --outline-faint: rgba(255, 255, 255, 0.05);
+  --outline-soft: rgba(255, 255, 255, 0.1);
+  --outline-strong: rgba(255, 255, 255, 0.2);
+
+  /* Subtle fills / hover overlays (replaces bg-white/N) */
+  --fill-soft: rgba(255, 255, 255, 0.05);
+  --fill-strong: rgba(255, 255, 255, 0.1);
+  --fill-stronger: rgba(255, 255, 255, 0.15);
+
+  /* Glass cards */
+  --glass-bg: rgba(255, 255, 255, 0.045);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 0 0 0 transparent;
+
+  /* Chips */
+  --chip-primary-bg: rgba(54, 224, 166, 0.1);
+  --chip-primary-border: rgba(54, 224, 166, 0.25);
+  --chip-muted-bg: rgba(255, 255, 255, 0.07);
+  --chip-muted-border: rgba(255, 255, 255, 0.08);
+
+  color-scheme: dark;
+}
+
+/* Light theme — clean white/very light gray, dark text, same brand accent */
+html.light {
+  --surface: #f7f8fa;
+  --surface-dim: #eef1f3;
+  --surface-bright: #ffffff;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #ffffff;
+  --surface-container: #ffffff;
+  --surface-container-high: #f1f4f5;
+  --surface-container-highest: #ffffff;
+  --on-surface: #1a1a1a;
+  --on-surface-variant: #5f6b69;
+  --on-background: #1a1a1a;
+  --background: #f7f8fa;
+  --primary: #0d9f78;
+  --primary-container: #2bb88a;
+  --on-primary: #04140d;
+  --secondary: #0d9488;
+  --secondary-container: #1593c9;
+  --tertiary: #6a5cd8;
+  --tertiary-container: #6a4ff0;
+  --outline: #a8b3b1;
+  --outline-variant: #e4e9e8;
+  --error: #d9442c;
+
+  --outline-faint: rgba(15, 23, 21, 0.06);
+  --outline-soft: rgba(15, 23, 21, 0.1);
+  --outline-strong: rgba(15, 23, 21, 0.22);
+
+  --fill-soft: rgba(15, 23, 21, 0.045);
+  --fill-strong: rgba(15, 23, 21, 0.08);
+  --fill-stronger: rgba(15, 23, 21, 0.12);
+
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(15, 23, 21, 0.07);
+  --glass-shadow: 0 8px 28px -10px rgba(15, 30, 26, 0.1);
+
+  --chip-primary-bg: rgba(13, 159, 120, 0.12);
+  --chip-primary-border: rgba(13, 159, 120, 0.3);
+  --chip-muted-bg: rgba(15, 23, 21, 0.05);
+  --chip-muted-border: rgba(15, 23, 21, 0.08);
+
+  color-scheme: light;
 }
 
 @theme inline {
@@ -50,6 +122,12 @@
   --color-tertiary-container: var(--tertiary-container);
   --color-outline: var(--outline);
   --color-outline-variant: var(--outline-variant);
+  --color-outline-faint: var(--outline-faint);
+  --color-outline-soft: var(--outline-soft);
+  --color-outline-strong: var(--outline-strong);
+  --color-fill-soft: var(--fill-soft);
+  --color-fill-strong: var(--fill-strong);
+  --color-fill-stronger: var(--fill-stronger);
   --color-error: var(--error);
   --font-sans: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
   --radius-DEFAULT: var(--radius);
@@ -61,6 +139,20 @@ body {
   background-color: var(--surface);
   color: var(--on-surface);
   font-family: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Short color transition while switching themes (class added by ThemeProvider) */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    fill 0.2s ease,
+    stroke 0.2s ease,
+    box-shadow 0.2s ease !important;
 }
 
 /* Ambient background glow (dashboard) */
@@ -77,11 +169,12 @@ body {
 
 /* Glass morphism cards */
 .glass-card {
-  background: rgba(255, 255, 255, 0.045);
+  background: var(--glass-bg);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -94,10 +187,10 @@ body {
   box-shadow: 0 10px 40px -10px rgba(54, 224, 166, 0.18);
 }
 
-/* Primary CTA gradient pill */
+/* Primary CTA gradient pill — brand gradient, identical in both themes */
 .glow-pill {
   background: linear-gradient(135deg, #4fe3c8 0%, #36e0a6 55%, #9b8cf0 100%);
-  color: var(--on-primary);
+  color: #04140d;
   box-shadow: 0 0 20px rgba(54, 224, 166, 0.35);
   transition: all 0.3s ease;
 }
@@ -122,23 +215,19 @@ body {
 
 /* Stat / chip accents */
 .chip-primary {
-  background: rgba(54, 224, 166, 0.1);
+  background: var(--chip-primary-bg);
   color: var(--primary);
-  border: 0.5px solid rgba(54, 224, 166, 0.25);
+  border: 0.5px solid var(--chip-primary-border);
 }
 
 .chip-muted {
-  background: rgba(255, 255, 255, 0.07);
+  background: var(--chip-muted-bg);
   color: var(--on-surface-variant);
-  border: 0.5px solid rgba(255, 255, 255, 0.08);
+  border: 0.5px solid var(--chip-muted-border);
 }
 
-/* Native <select> dropdowns: keep list readable on dark UI */
-select,
-.native-select {
-  color-scheme: dark;
-}
-
+/* Native <select> dropdowns: keep the option list readable in both themes
+   (color-scheme is set per theme on :root / html.light) */
 select option,
 .native-select option {
   background-color: var(--surface-container-highest);

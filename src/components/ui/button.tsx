@@ -13,8 +13,8 @@ const buttonVariants = cva(
         secondary:
           'bg-secondary/20 text-secondary hover:bg-secondary/30 border border-secondary/20',
         outline:
-          'glass-card border border-white/10 bg-transparent text-on-surface hover:bg-white/5',
-        ghost: 'text-on-surface-variant hover:bg-white/5 hover:text-on-surface',
+          'glass-card border border-outline-soft bg-transparent text-on-surface hover:bg-fill-soft',
+        ghost: 'text-on-surface-variant hover:bg-fill-soft hover:text-on-surface',
         destructive: 'bg-error/20 text-error hover:bg-error/30 border border-error/30',
       },
       size: {

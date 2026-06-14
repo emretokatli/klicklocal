@@ -11,7 +11,7 @@ export function LegalPageShell({
   children: ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-surface font-sans text-on-surface">
+    <div className="force-dark min-h-screen bg-surface font-sans text-on-surface">
       <header className="border-b border-white/5 bg-surface-container-lowest px-5 py-4 md:px-10">
         <div className="mx-auto flex max-w-4xl items-center justify-between">
           <Link href="/" className="flex items-center gap-3">

@@ -146,12 +146,12 @@ export function ReelStudio({ workspaceId, profile, onGenerated }: ReelStudioProp
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-surface-container-high px-4 py-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-outline-soft bg-surface-container-high px-4 py-3">
         <div>
           <p className="text-sm font-semibold text-on-surface">{de.ai.reelStudio.badge}</p>
           <p className="text-xs text-on-surface-variant">{de.ai.reelStudio.subtitle}</p>
         </div>
-        <div className="flex rounded-xl border border-white/10 bg-surface-container p-0.5">
+        <div className="flex rounded-xl border border-outline-soft bg-surface-container p-0.5">
           {(['de', 'en'] as ReelLanguage[]).map((value) => (
             <button
               key={value}

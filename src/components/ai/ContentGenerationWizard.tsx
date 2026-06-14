@@ -66,7 +66,7 @@ function StepIndicator({ step }: { step: 1 | 2 | 3 }) {
         <div
           key={n}
           className={`h-1.5 flex-1 rounded-full transition-all ${
-            n <= step ? 'bg-primary' : 'bg-white/10'
+            n <= step ? 'bg-primary' : 'bg-fill-strong'
           }`}
         />
       ))}
@@ -101,7 +101,7 @@ function OptionGrid<T extends string>({
             className={`rounded-2xl border px-4 py-5 text-sm font-semibold transition focus:outline-none ${
               active
                 ? 'border-primary bg-primary/10 text-primary'
-                : 'border-white/15 bg-white/5 text-on-surface hover:border-white/30 hover:bg-white/10'
+                : 'border-outline-soft bg-fill-soft text-on-surface hover:border-outline-strong hover:bg-fill-strong'
             }`}
           >
             {getLabel(opt)}
@@ -128,7 +128,7 @@ function CopyButton({
     <button
       type="button"
       onClick={() => onCopy(text, copyKey)}
-      className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs text-on-surface-variant hover:bg-white/10 hover:text-on-surface transition"
+      className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs text-on-surface-variant hover:bg-fill-strong hover:text-on-surface transition"
       title={copied ? de.aiWizard.copied : de.aiWizard.copyCaption}
     >
       {copied ? (
@@ -234,7 +234,7 @@ function ResultView({
       </div>
 
       {/* Main result card */}
-      <div className="rounded-2xl border border-white/10 bg-surface-container-high p-5 space-y-5">
+      <div className="rounded-2xl border border-outline-soft bg-surface-container-high p-5 space-y-5">
 
         {/* Caption */}
         <div className="space-y-1">
@@ -253,7 +253,7 @@ function ResultView({
             readOnly
             rows={4}
             value={result.caption}
-            className="resize-none bg-white/5 text-sm"
+            className="resize-none bg-fill-soft text-sm"
           />
         </div>
 
@@ -275,7 +275,7 @@ function ResultView({
               readOnly
               rows={2}
               value={result.story_text}
-              className="resize-none bg-white/5 text-sm"
+              className="resize-none bg-fill-soft text-sm"
             />
           </div>
         )}
@@ -304,7 +304,7 @@ function ResultView({
                   className={`rounded-full border px-2.5 py-1 text-xs font-medium transition ${
                     copiedKey === `tag-${tag}`
                       ? 'border-primary bg-primary/10 text-primary'
-                      : 'border-white/15 bg-white/5 text-on-surface-variant hover:border-white/30 hover:text-on-surface'
+                      : 'border-outline-soft bg-fill-soft text-on-surface-variant hover:border-outline-strong hover:text-on-surface'
                   }`}
                 >
                   {tag}
@@ -328,7 +328,7 @@ function ResultView({
                 onCopy={copy}
               />
             </div>
-            <p className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-on-surface">
+            <p className="rounded-xl border border-outline-soft bg-fill-soft px-3 py-2 text-sm text-on-surface">
               {result.call_to_action}
             </p>
           </div>
@@ -362,7 +362,7 @@ function ResultView({
       </div>
 
       {/* Quick publish */}
-      <div className="rounded-2xl border border-white/10 bg-surface-container-high p-5 space-y-4">
+      <div className="rounded-2xl border border-outline-soft bg-surface-container-high p-5 space-y-4">
         <p className="text-sm font-semibold text-on-surface">
           {de.ai.wizard.shareTitle}
         </p>
@@ -391,8 +391,8 @@ function ResultView({
                   active
                     ? 'border-current bg-primary/10'
                     : connected
-                    ? 'border-white/15 bg-white/5 text-on-surface hover:border-white/30 hover:bg-white/10'
-                    : 'cursor-not-allowed border-white/10 bg-white/5 text-on-surface-variant opacity-40'
+                    ? 'border-outline-soft bg-fill-soft text-on-surface hover:border-outline-strong hover:bg-fill-strong'
+                    : 'cursor-not-allowed border-outline-soft bg-fill-soft text-on-surface-variant opacity-40'
                 }`}
               >
                 {de.ai.wizard.platforms[p]}
@@ -513,7 +513,7 @@ export function ContentGenerationWizard({
   }
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-surface-container-high p-5">
+    <div className="rounded-2xl border border-outline-soft bg-surface-container-high p-5">
       <div className="mb-1 flex items-center justify-between">
         <h2 className="text-sm font-semibold text-on-surface">
           {de.aiWizard.title}

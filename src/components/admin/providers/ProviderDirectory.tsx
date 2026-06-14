@@ -48,7 +48,7 @@ export function ProviderDirectory({
                 'glass-card flex h-full flex-col rounded-2xl border p-5 text-left transition-all',
                 selected
                   ? 'border-primary/50 ring-2 ring-primary/20'
-                  : 'border-white/10 hover:border-white/20',
+                  : 'border-outline-soft hover:border-outline-strong',
               )}
             >
               <div className="mb-4 flex items-start justify-between gap-3">

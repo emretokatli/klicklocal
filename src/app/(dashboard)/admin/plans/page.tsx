@@ -84,7 +84,7 @@ export default function AdminPlansPage() {
                 {plan.features.map((f) => (
                   <span
                     key={f.id}
-                    className="rounded-lg bg-white/5 px-2 py-1 text-xs"
+                    className="rounded-lg bg-fill-soft px-2 py-1 text-xs"
                   >
                     {f.feature_key}: {f.feature_value}
                   </span>

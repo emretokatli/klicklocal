@@ -5,6 +5,7 @@ import {
   BarChart3,
   Bot,
   CreditCard,
+  Globe,
   Package,
   Plug,
   Receipt,
@@ -54,6 +55,12 @@ const cards = [
     permission: PLATFORM_PERMISSIONS.manageAiPrompts,
     title: de.admin.dashboard.cards.prompts,
     icon: Bot,
+  },
+  {
+    href: '/admin/website-analyze',
+    permission: PLATFORM_PERMISSIONS.manageAiPrompts,
+    title: de.admin.dashboard.cards.websiteAnalyze,
+    icon: Globe,
   },
   {
     href: '/admin/usage',

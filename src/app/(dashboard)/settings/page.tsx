@@ -321,7 +321,7 @@ function MedienTab() {
                     </div>
                   )}
                 </a>
-                <div className="border-t border-white/10 p-3">
+                <div className="border-t border-outline-soft p-3">
                   <p className="truncate text-sm font-medium">{media.file_name}</p>
                   <p className="text-xs text-on-surface-variant">
                     {formatBytes(media.file_size)}
@@ -377,7 +377,7 @@ export default function SettingsPage() {
       />
 
       {/* Tab Bar */}
-      <div className="mb-6 flex gap-1 border-b border-white/10">
+      <div className="mb-6 flex gap-1 border-b border-outline-soft">
         {TABS.map((tab) => (
           <button
             key={tab.key}

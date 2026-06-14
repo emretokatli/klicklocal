@@ -3,9 +3,17 @@
 import { CalendarClock, CheckCircle2, Eye, FileText, TrendingUp, Users, XCircle } from 'lucide-react';
 import Link from 'next/link';
 
+import { AnalysisCard } from '@/components/dashboard/AnalysisCard';
+import { ContentCard } from '@/components/dashboard/ContentCard';
+import {
+  PlanCard,
+  PlanUpgradeFallback,
+} from '@/components/dashboard/PlanCard';
+import { TodaySummary } from '@/components/dashboard/TodaySummary';
+import { TrendsCard } from '@/components/dashboard/TrendsCard';
 import { UsageSummaryWidget } from '@/components/dashboard/UsageSummaryWidget';
+import { SubscriptionGate } from '@/components/billing/SubscriptionGate';
 import { PageHeader } from '@/components/shared/PageHeader';
-import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useKpi } from '@/hooks/use-analytics';
 import { usePosts } from '@/hooks/use-posts';
@@ -52,82 +60,97 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {kpiQuery.data && (
-        <div className="mb-6">
-          <div className="mb-3 flex items-center gap-2">
-            <p className="text-sm font-medium text-on-surface-variant">Analytics</p>
-            {kpiQuery.data.is_estimated && (
-              <span className="rounded-full bg-white/5 px-2 py-0.5 text-xs text-on-surface-variant">
-                Geschätzt
-              </span>
-            )}
-          </div>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-on-surface-variant">Impressionen</CardTitle>
-                <Eye className="h-4 w-4 text-primary/70" />
-              </CardHeader>
-              <CardContent>
-                <p className="text-3xl font-semibold">{kpiQuery.data.impressions.toLocaleString('de-DE')}</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-on-surface-variant">Reichweite</CardTitle>
-                <Users className="h-4 w-4 text-primary/70" />
-              </CardHeader>
-              <CardContent>
-                <p className="text-3xl font-semibold">{kpiQuery.data.reach.toLocaleString('de-DE')}</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-on-surface-variant">Engagement</CardTitle>
-                <TrendingUp className="h-4 w-4 text-primary/70" />
-              </CardHeader>
-              <CardContent>
-                <p className="text-3xl font-semibold">{kpiQuery.data.engagement_rate.toFixed(1)}%</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      )}
-
-      {postsQuery.isLoading && (
-        <div className="flex justify-center py-16">
-          <LoadingSpinner />
-        </div>
-      )}
-
-      {stats && (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {statCards.map(({ key, label, icon: Icon }) => (
-            <Card key={key}>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-on-surface-variant">
-                  {label}
-                </CardTitle>
-                <Icon className="h-4 w-4 text-primary/70" />
-              </CardHeader>
-              <CardContent>
-                <p className="text-3xl font-semibold">
-                  {stats[key as keyof typeof stats]}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
-
-      <div className="mt-6">
-        <UsageSummaryWidget workspaceId={workspaceId} />
-      </div>
-
-      {!workspaceId && !postsQuery.isLoading && (
+      {!workspaceId && (
         <p className="text-sm text-on-surface-variant">
           {de.dashboard.createWorkspaceHint}
         </p>
+      )}
+
+      {workspaceId && (
+        <>
+          {/* What to do today — derived from plan + top trend */}
+          <TodaySummary workspaceId={workspaceId} />
+
+          {/* 4-value hub: collapses to one column on mobile */}
+          <div className="grid gap-6 lg:grid-cols-2">
+            <ContentCard />
+            <SubscriptionGate fallback={<PlanUpgradeFallback />}>
+              <PlanCard workspaceId={workspaceId} />
+            </SubscriptionGate>
+          </div>
+
+          <div className="mt-6 grid gap-6 lg:grid-cols-[2fr_1fr]">
+            <AnalysisCard workspaceId={workspaceId} />
+            <TrendsCard workspaceId={workspaceId} />
+          </div>
+
+          {/* Secondary: performance overview */}
+          {kpiQuery.data && (
+            <div className="mt-8">
+              <div className="mb-3 flex items-center gap-2">
+                <p className="text-sm font-medium text-on-surface-variant">Analytics</p>
+                {kpiQuery.data.is_estimated && (
+                  <span className="rounded-full bg-fill-soft px-2 py-0.5 text-xs text-on-surface-variant">
+                    Geschätzt
+                  </span>
+                )}
+              </div>
+              <div className="grid gap-4 sm:grid-cols-3">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between pb-2">
+                    <CardTitle className="text-sm font-medium text-on-surface-variant">Impressionen</CardTitle>
+                    <Eye className="h-4 w-4 text-primary/70" />
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-3xl font-semibold">{kpiQuery.data.impressions.toLocaleString('de-DE')}</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between pb-2">
+                    <CardTitle className="text-sm font-medium text-on-surface-variant">Reichweite</CardTitle>
+                    <Users className="h-4 w-4 text-primary/70" />
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-3xl font-semibold">{kpiQuery.data.reach.toLocaleString('de-DE')}</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between pb-2">
+                    <CardTitle className="text-sm font-medium text-on-surface-variant">Engagement</CardTitle>
+                    <TrendingUp className="h-4 w-4 text-primary/70" />
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-3xl font-semibold">{kpiQuery.data.engagement_rate.toFixed(1)}%</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          )}
+
+          {stats && (
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              {statCards.map(({ key, label, icon: Icon }) => (
+                <Card key={key}>
+                  <CardHeader className="flex flex-row items-center justify-between pb-2">
+                    <CardTitle className="text-sm font-medium text-on-surface-variant">
+                      {label}
+                    </CardTitle>
+                    <Icon className="h-4 w-4 text-primary/70" />
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-3xl font-semibold">
+                      {stats[key as keyof typeof stats]}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+
+          <div className="mt-6">
+            <UsageSummaryWidget workspaceId={workspaceId} />
+          </div>
+        </>
       )}
     </div>
   );

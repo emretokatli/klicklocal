@@ -42,7 +42,7 @@ export function ReelExportPanel({
   return (
     <div className="space-y-6">
       <div className="glass-card space-y-4 rounded-2xl p-5">
-        <h3 className="flex items-center gap-2 border-b border-white/10 pb-2 text-sm font-semibold">
+        <h3 className="flex items-center gap-2 border-b border-outline-soft pb-2 text-sm font-semibold">
           <Video className="h-4 w-4 text-primary" />
           {copy.timelineTitle}
         </h3>
@@ -71,11 +71,11 @@ export function ReelExportPanel({
       </div>
 
       <div className="glass-card space-y-3 rounded-2xl p-5">
-        <h3 className="flex items-center gap-2 border-b border-white/10 pb-2 text-sm font-semibold">
+        <h3 className="flex items-center gap-2 border-b border-outline-soft pb-2 text-sm font-semibold">
           <FileText className="h-4 w-4 text-secondary" />
           {copy.captionTitle}
         </h3>
-        <p className="max-h-40 overflow-y-auto whitespace-pre-wrap rounded-xl border border-white/10 bg-surface-container-high p-2.5 text-[11px] leading-relaxed text-on-surface-variant">
+        <p className="max-h-40 overflow-y-auto whitespace-pre-wrap rounded-xl border border-outline-soft bg-surface-container-high p-2.5 text-[11px] leading-relaxed text-on-surface-variant">
           {script.socialCaption}
         </p>
         <div className="flex flex-wrap gap-1">

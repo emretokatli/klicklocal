@@ -23,7 +23,7 @@ export function OnboardingShell({
   const progress = Math.round(((stepIndex + 1) / totalSteps) * 100);
 
   return (
-    <main className="onboarding-page flex min-h-screen flex-col">
+    <main className="onboarding-page force-dark flex min-h-screen flex-col bg-surface text-on-surface">
       <header className="mx-auto w-full max-w-3xl px-5 pt-6 sm:px-8">
         <div className="mb-5 flex items-center justify-between">
           <Link href="/" className="inline-flex items-center gap-2 opacity-80 transition hover:opacity-100">

@@ -4,6 +4,7 @@ import {
   BarChart3,
   Bot,
   CreditCard,
+  Globe,
   LayoutDashboard,
   MessageCircle,
   Package,
@@ -78,6 +79,11 @@ function buildAdminNav(abilities: UserAbilities | null): NavItem[] {
   }
   if (hasPlatformPermission(abilities ?? undefined, PLATFORM_PERMISSIONS.manageAiPrompts)) {
     items.push({ href: '/admin/ai-prompts', label: de.admin.nav.aiPrompts, icon: Bot });
+    items.push({
+      href: '/admin/website-analyze',
+      label: de.admin.nav.websiteAnalyze,
+      icon: Globe,
+    });
   }
   if (hasPlatformPermission(abilities ?? undefined, PLATFORM_PERMISSIONS.viewUsage)) {
     items.push({ href: '/admin/usage', label: de.admin.nav.usage, icon: BarChart3 });
@@ -106,8 +112,8 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const nav = mode === 'admin' ? buildAdminNav(abilities) : customerNav;
 
   return (
-    <aside className="flex h-full w-60 flex-col border-r border-white/10 bg-surface-container-low">
-      <div className="flex h-14 items-center gap-2.5 border-b border-white/10 px-5">
+    <aside className="flex h-full w-60 flex-col border-r border-outline-soft bg-surface-container-low">
+      <div className="flex h-14 items-center gap-2.5 border-b border-outline-soft px-5">
         <Logo size={32} />
         <span className="font-semibold tracking-tight text-on-surface">
           Klicklocal
@@ -115,11 +121,11 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
       </div>
 
       {canAccessAdmin && (
-        <div className="border-b border-white/10 p-3">
+        <div className="border-b border-outline-soft p-3">
           <p className="mb-2 px-1 text-xs font-medium uppercase tracking-wide text-on-surface-variant">
             {de.admin.modeLabel}
           </p>
-          <div className="grid grid-cols-2 gap-1 rounded-xl bg-white/5 p-1">
+          <div className="grid grid-cols-2 gap-1 rounded-xl bg-fill-soft p-1">
             <Button
               type="button"
               variant={mode === 'customer' ? 'default' : 'ghost'}
@@ -160,7 +166,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                 'flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-colors',
                 active
                   ? 'bg-primary/15 text-primary'
-                  : 'text-on-surface-variant hover:bg-white/5 hover:text-on-surface',
+                  : 'text-on-surface-variant hover:bg-fill-soft hover:text-on-surface',
               )}
             >
               <Icon className="h-4 w-4 shrink-0" />

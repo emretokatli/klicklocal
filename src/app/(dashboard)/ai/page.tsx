@@ -169,7 +169,7 @@ function AiStudioContent({
       )}
 
       {/* Tab navigation */}
-      <div className="mb-6 flex gap-1 border-b border-white/10">
+      <div className="mb-6 flex gap-1 border-b border-outline-soft">
         {(
           [
             { key: 'post-creator', label: de.ai.tabPostCreator },

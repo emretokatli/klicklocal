@@ -165,6 +165,54 @@ export type AiPromptTemplate = {
   version: number;
 };
 
+export type WebAnalyzeResult = {
+  website: string;
+  score: number | null;
+  band: string | null;
+  report_markdown: string;
+  session_id: string | null;
+  duration_ms: number | null;
+  model: string | null;
+  errors: string[];
+  total_cost_usd?: number | null;
+  num_turns?: number | null;
+  cached?: boolean;
+};
+
+export type WebAnalyzeRunStatus =
+  | 'pending'
+  | 'processing'
+  | 'completed'
+  | 'failed';
+
+export type WebAnalyzeRun = {
+  id: string;
+  website: string;
+  status: WebAnalyzeRunStatus;
+  partial: boolean;
+  error_message: string | null;
+  total_cost_usd: number | null;
+  num_turns: number | null;
+  started_at: string | null;
+  completed_at: string | null;
+  created_at: string | null;
+  result: WebAnalyzeResult | null;
+};
+
+export type WebAnalyzeRunSummary = {
+  id: string;
+  website: string;
+  status: WebAnalyzeRunStatus;
+  partial: boolean;
+  error_message: string | null;
+  score: number | null;
+  band: string | null;
+  has_report: boolean;
+  total_cost_usd: number | null;
+  completed_at: string | null;
+  created_at: string | null;
+};
+
 export type PlatformSettings = {
   app_name: string;
   support_email: string;
@@ -241,6 +289,91 @@ export type BusinessProfileInput = {
   primary_goal?: string | null;
 };
 
+export type WebsiteAnalysisBand =
+  | 'Kritisch'
+  | 'Ausbaufähig'
+  | 'Solide'
+  | 'Stark';
+
+/** Full analysis — only sent to subscribed (full-tier) workspaces. */
+export type WebsiteAnalysisFull = {
+  score: number;
+  band: WebsiteAnalysisBand;
+  summary: string;
+  services: string[];
+  seo_assessment: string;
+  strengths: string[];
+  weaknesses: string[];
+  brand_tone: string;
+  target_audience: string;
+  growth_note: string;
+};
+
+/** Teaser analysis — sent to unsubscribed workspaces (no full lists/detail). */
+export type WebsiteAnalysisTeaser = {
+  score: number;
+  band: WebsiteAnalysisBand;
+  summary: string;
+  brand_tone: string;
+  strengths_count: number;
+  weaknesses_count: number;
+  locked_sections: string[];
+};
+
+export type WebsiteAnalysisResponse =
+  | {
+      available: true;
+      tier: 'full';
+      website: string | null;
+      analyzed_at: string | null;
+      analysis: WebsiteAnalysisFull;
+    }
+  | {
+      available: true;
+      tier: 'teaser';
+      website: string | null;
+      analyzed_at: string | null;
+      analysis: WebsiteAnalysisTeaser;
+    }
+  | {
+      available: false;
+      tier: 'full' | 'teaser';
+      website: string | null;
+      analyzed_at: string | null;
+      analysis: null;
+    };
+
+export type ContentPlanSuggestion = {
+  day: string;
+  date: string;
+  category: string;
+  category_label: string;
+  platform: string;
+  idea: string;
+  trend_title: string | null;
+};
+
+export type ContentPlanResponse = {
+  week_start: string;
+  suggestions: ContentPlanSuggestion[];
+};
+
+export type Trend = {
+  id: number;
+  title: string;
+  description: string | null;
+  category: string | null;
+  score: number;
+  fit: boolean;
+  comment: string;
+  suggestion: string;
+};
+
+export type TrendsResponse = {
+  business_type: string | null;
+  trends: Trend[];
+};
+
 export type AiGeneration = {
   id: number;
   workspace_id: number;
@@ -309,7 +442,17 @@ export interface Comment {
   text: string;
   sentiment: 'positive' | 'neutral' | 'negative';
   commented_at: string | null;
+  suggested_reply: string | null;
+  reply_text: string | null;
+  replied_at: string | null;
   created_at: string;
+}
+
+export interface CommentStats {
+  total: number;
+  positive: number;
+  neutral: number;
+  negative: number;
 }
 
 export type PostStats = {

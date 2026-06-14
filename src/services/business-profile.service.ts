@@ -1,5 +1,9 @@
 import { apiGet, apiPut } from '@/services/api-client';
-import type { BusinessProfile, BusinessProfileInput } from '@/types/api';
+import type {
+  BusinessProfile,
+  BusinessProfileInput,
+  WebsiteAnalysisResponse,
+} from '@/types/api';
 
 export const businessProfileService = {
   get(workspaceId: number) {
@@ -13,5 +17,11 @@ export const businessProfileService = {
       `/workspaces/${workspaceId}/business-profile`,
       payload,
     ).then((d) => d.business_profile);
+  },
+
+  // Workspace is resolved server-side from the X-Workspace-Id header (auto-
+  // attached by api-client). The tier (teaser/full) is decided by the backend.
+  analysis() {
+    return apiGet<WebsiteAnalysisResponse>('/business-profile/analysis');
   },
 };

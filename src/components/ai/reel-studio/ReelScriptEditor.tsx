@@ -34,7 +34,7 @@ export function ReelScriptEditor({
 
   return (
     <div className="glass-card space-y-4 rounded-2xl p-5">
-      <div className="flex items-center gap-2 border-b border-white/10 pb-3">
+      <div className="flex items-center gap-2 border-b border-outline-soft pb-3">
         <Layers className="h-5 w-5 text-primary" />
         <h2 className="text-base font-semibold">{copy.editorTitle}</h2>
       </div>
@@ -67,18 +67,18 @@ export function ReelScriptEditor({
             type="text"
             value={editedTagline}
             onChange={(e) => onTaglineChange(e.target.value)}
-            className="mb-1.5 h-10 w-full rounded-xl border border-white/10 bg-surface-container-high px-3 text-xs text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40"
+            className="mb-1.5 h-10 w-full rounded-xl border border-outline-soft bg-surface-container-high px-3 text-xs text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40"
           />
           <input
             type="text"
             value={editedCta}
             onChange={(e) => onCtaChange(e.target.value)}
-            className="h-10 w-full rounded-xl border border-white/10 bg-surface-container-high px-3 text-xs text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40"
+            className="h-10 w-full rounded-xl border border-outline-soft bg-surface-container-high px-3 text-xs text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/40"
           />
         </div>
       </div>
 
-      <p className="border-t border-white/10 pt-2 text-center text-[10px] text-on-surface-variant">
+      <p className="border-t border-outline-soft pt-2 text-center text-[10px] text-on-surface-variant">
         {copy.livePreviewHint}
       </p>
     </div>

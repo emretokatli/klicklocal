@@ -37,7 +37,7 @@ export function AuthShell({
   const v = isRegister ? VISUAL.register : VISUAL.signIn;
 
   return (
-    <main className="auth-page relative min-h-screen lg:grid lg:grid-cols-[1.05fr_1fr]">
+    <main className="auth-page force-dark relative min-h-screen bg-surface text-on-surface lg:grid lg:grid-cols-[1.05fr_1fr]">
       {/* Decorative panel — desktop */}
       <aside
         className="auth-visual relative hidden flex-col justify-between overflow-hidden border-r border-white/5 p-10 xl:p-14 lg:flex"

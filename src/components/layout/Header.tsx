@@ -2,6 +2,7 @@
 
 import { LogOut, Menu } from 'lucide-react';
 
+import { ThemeToggle } from '@/components/layout/ThemeToggle';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -25,7 +26,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
   const workspaceRole = abilities?.workspace_role;
 
   return (
-    <header className="relative z-10 flex h-14 items-center justify-between gap-4 border-b border-white/10 bg-surface-container/80 px-4 backdrop-blur-md lg:px-6">
+    <header className="relative z-10 flex h-14 items-center justify-between gap-4 border-b border-outline-soft bg-surface-container/80 px-4 backdrop-blur-md lg:px-6">
       <div className="flex items-center gap-3">
         <Button
           variant="ghost"
@@ -42,7 +43,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
             onValueChange={(v) => setWorkspaceId(Number(v))}
             disabled={isLoading || workspaces.length === 0}
           >
-            <SelectTrigger className="w-[200px] border-white/10 sm:w-[240px]">
+            <SelectTrigger className="w-[200px] border-outline-soft sm:w-[240px]">
               <SelectValue placeholder={de.header.selectWorkspace} />
             </SelectTrigger>
             <SelectContent>
@@ -65,6 +66,7 @@ export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
         )}
       </div>
       <div className="flex items-center gap-3">
+        <ThemeToggle />
         {user && (
           <span className="hidden text-sm text-on-surface-variant sm:inline">
             {user.name}

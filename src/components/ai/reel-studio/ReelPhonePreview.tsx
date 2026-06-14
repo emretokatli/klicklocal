@@ -172,7 +172,7 @@ function SoundPicker({
   onSoundChange: (sound: ReelSoundStyle) => void;
 }) {
   return (
-    <div className="flex items-center justify-between rounded-xl border border-white/10 bg-surface-container-high p-2.5">
+    <div className="flex items-center justify-between rounded-xl border border-outline-soft bg-surface-container-high p-2.5">
       <div>
         <p className="text-[9px] text-on-surface-variant">{audioLabel}</p>
         <NativeSelect
@@ -256,16 +256,16 @@ function SceneOne({ niche, hook }: { niche: ReelBusinessNiche; hook: string }) {
 function SceneTwo({ solution }: { solution: string }) {
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center bg-surface-container-low p-4">
-      <div className="w-full space-y-3 rounded-2xl border border-white/10 bg-surface-container-high p-3">
+      <div className="w-full space-y-3 rounded-2xl border border-outline-soft bg-surface-container-high p-3">
         <div className="flex items-center gap-1.5 text-[9px] font-semibold text-primary">
           <Sparkles className="h-3 w-3" />
           Klicklocal Copilot
         </div>
-        <div className="rounded-lg border border-white/10 bg-surface-container-lowest p-2">
+        <div className="rounded-lg border border-outline-soft bg-surface-container-lowest p-2">
           <div className="mb-1.5 h-1.5 rounded bg-gradient-to-r from-primary to-tertiary" />
           <p className="truncate text-[8px] italic text-on-surface-variant">{solution}</p>
         </div>
-        <div className="flex items-center justify-between rounded-lg border border-white/10 bg-surface-container-lowest p-2">
+        <div className="flex items-center justify-between rounded-lg border border-outline-soft bg-surface-container-lowest p-2">
           <div className="flex items-center gap-2">
             <Calendar className="h-3.5 w-3.5 text-tertiary" />
             <div>
@@ -289,14 +289,14 @@ function SceneThree({ features }: { features: string }) {
         <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-yellow-500 via-pink-500 to-purple-500 p-2">
           <SocialProviderIcon provider="instagram" size="sm" />
         </div>
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-surface-container-high p-2">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-outline-soft bg-surface-container-high p-2">
           <SocialProviderIcon provider="tiktok" size="sm" />
         </div>
         <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 p-2">
           <SocialProviderIcon provider="facebook" size="sm" />
         </div>
       </div>
-      <p className="rounded-xl border border-primary/30 bg-surface-container-high px-3 py-2 text-center text-sm font-black uppercase text-white">
+      <p className="rounded-xl border border-primary/30 bg-surface-container-high px-3 py-2 text-center text-sm font-black uppercase text-on-surface">
         {features}
       </p>
     </div>
@@ -322,7 +322,7 @@ function SceneFour({
             <Logo size={48} />
           </div>
         </div>
-        <p className="rounded-lg border border-white/10 bg-black/75 p-2 text-xs italic text-on-surface">
+        <p className="rounded-lg border border-white/10 bg-black/75 p-2 text-xs italic text-white">
           &quot;{tagline}&quot;
         </p>
         <div className="rounded-full bg-gradient-to-r from-primary to-tertiary px-4 py-2 text-[10px] font-black uppercase tracking-wide text-on-primary">
@@ -336,9 +336,9 @@ function SceneFour({
 function PlatformOverlayUi({ overlayType }: { overlayType: PlatformOverlay }) {
   return (
     <div className="pointer-events-none absolute inset-0 z-30">
-      <div className="absolute inset-x-0 top-0 flex h-16 items-center justify-between bg-gradient-to-b from-black/80 to-transparent p-3 text-[10px] text-on-surface-variant">
+      <div className="absolute inset-x-0 top-0 flex h-16 items-center justify-between bg-gradient-to-b from-black/80 to-transparent p-3 text-[10px] text-white/70">
         <span className="font-semibold">09:41</span>
-        <span className="font-bold text-on-surface">
+        <span className="font-bold text-white">
           {overlayType === 'instagram' ? 'REELS' : 'For You'}
         </span>
         <span />

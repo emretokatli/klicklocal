@@ -14,6 +14,9 @@ import type {
   SocialProviderSettings,
   UpdateSocialProviderPayload,
   UsageRecord,
+  WebAnalyzeResult,
+  WebAnalyzeRun,
+  WebAnalyzeRunSummary,
   Workspace,
 } from '@/types/api';
 
@@ -125,6 +128,26 @@ export const adminService = {
       `/admin/ai-prompts/${id}/active`,
       { is_active: isActive },
     ).then((d) => d.prompt);
+  },
+
+  analyzeWebsite(website: string) {
+    return apiPost<{ run: WebAnalyzeRun }>(
+      '/admin/website-analyze',
+      { website },
+      { timeout: 30_000 },
+    ).then((d) => d.run);
+  },
+
+  websiteAnalyzeRuns(limit = 30) {
+    return apiGet<{ runs: WebAnalyzeRunSummary[] }>(
+      `/admin/website-analyze?limit=${limit}`,
+    ).then((d) => d.runs);
+  },
+
+  websiteAnalyzeRun(id: string) {
+    return apiGet<{ run: WebAnalyzeRun }>(`/admin/website-analyze/${id}`).then(
+      (d) => d.run,
+    );
   },
 
   providers() {

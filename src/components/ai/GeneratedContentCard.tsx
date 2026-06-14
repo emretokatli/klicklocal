@@ -53,7 +53,7 @@ function Section({
         </span>
         <CopyButton value={value} />
       </div>
-      <p className="whitespace-pre-wrap rounded-xl bg-white/5 px-4 py-3 text-sm leading-relaxed text-on-surface">
+      <p className="whitespace-pre-wrap rounded-xl bg-fill-soft px-4 py-3 text-sm leading-relaxed text-on-surface">
         {value}
       </p>
     </div>

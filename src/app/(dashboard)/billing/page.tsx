@@ -135,7 +135,7 @@ function SubscriptionTab({ workspaceId, workspace }: { workspaceId: number; work
               <p className="text-on-surface-variant">{de.billing.noSubscription}</p>
             )}
             {sub && (
-              <div className="space-y-1 border-t border-white/10 pt-3 text-on-surface-variant">
+              <div className="space-y-1 border-t border-outline-soft pt-3 text-on-surface-variant">
                 <p>{de.billing.status}: <span className="text-on-surface">{sub.status}</span></p>
                 <p>{de.billing.provider}: {sub.provider}</p>
                 {sub.trial_ends_at && (
@@ -199,7 +199,7 @@ function SubscriptionTab({ workspaceId, workspace }: { workspaceId: number; work
             {packagesQuery.data.map((pkg) => (
               <div
                 key={pkg.key}
-                className="flex items-center justify-between rounded-xl border border-white/10 px-4 py-3"
+                className="flex items-center justify-between rounded-xl border border-outline-soft px-4 py-3"
               >
                 <div>
                   <p className="text-sm font-medium">{pkg.label}</p>
@@ -333,7 +333,7 @@ export default function BillingPage() {
       />
 
       {/* Tab Bar */}
-      <div className="mb-6 flex gap-1 rounded-xl bg-white/5 p-1 w-fit">
+      <div className="mb-6 flex gap-1 rounded-xl bg-fill-soft p-1 w-fit">
         {TABS.map((tab) => (
           <button
             key={tab.id}

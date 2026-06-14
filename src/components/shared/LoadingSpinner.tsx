@@ -4,7 +4,7 @@ export function LoadingSpinner({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        'h-8 w-8 animate-spin rounded-full border-2 border-white/10 border-t-primary',
+        'h-8 w-8 animate-spin rounded-full border-2 border-outline-soft border-t-primary',
         className,
       )}
       role="status"

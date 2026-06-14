@@ -101,7 +101,7 @@ export default function AdminUsagePage() {
                 ([key, val]) => (
                   <span
                     key={key}
-                    className="rounded-lg bg-white/5 px-2 py-1 text-xs"
+                    className="rounded-lg bg-fill-soft px-2 py-1 text-xs"
                   >
                     {key}: {val}
                   </span>

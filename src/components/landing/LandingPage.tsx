@@ -120,7 +120,7 @@ export function LandingPage() {
   const agencyNote = annual ? '699 € jährlich abgerechnet' : '';
 
   return (
-    <div className="landing-page relative font-sans text-base text-on-surface">
+    <div className="landing-page force-dark relative bg-surface font-sans text-base text-on-surface">
       <MarketingHeader />
 
       <main className="relative overflow-x-clip">

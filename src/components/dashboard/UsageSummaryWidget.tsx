@@ -56,8 +56,8 @@ export function UsageSummaryWidget({
           <div className="space-y-3">
             {FEATURED_KEYS.map((k) => (
               <div key={k} className="space-y-1.5">
-                <div className="h-4 w-32 animate-pulse rounded bg-white/10" />
-                <div className="h-1.5 w-full animate-pulse rounded-full bg-white/10" />
+                <div className="h-4 w-32 animate-pulse rounded bg-fill-strong" />
+                <div className="h-1.5 w-full animate-pulse rounded-full bg-fill-strong" />
               </div>
             ))}
           </div>

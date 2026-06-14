@@ -80,7 +80,7 @@ function StepBadge({ number }: { number: number }) {
 
 function MetaCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2">
+    <div className="rounded-xl border border-outline-soft bg-fill-soft px-3 py-2">
       <p className="text-[10px] font-semibold uppercase tracking-wide text-on-surface-variant">
         {label}
       </p>
@@ -221,7 +221,7 @@ export function KiStudioPostCreator({
       {/* Left: workflow */}
       <div className="space-y-4">
         {/* Concept / theme */}
-        <div className="rounded-2xl border border-white/10 bg-surface-container-high p-5">
+        <div className="rounded-2xl border border-outline-soft bg-surface-container-high p-5">
           <label className="mb-2 block text-sm font-semibold text-on-surface">
             {de.ai.kiStudio.conceptLabel}
           </label>
@@ -231,7 +231,7 @@ export function KiStudioPostCreator({
             value={concept}
             onChange={(e) => setConcept(e.target.value)}
             placeholder={de.ai.kiStudio.conceptPlaceholder}
-            className="resize-none bg-white/5"
+            className="resize-none bg-fill-soft"
           />
           <p className="mt-1.5 text-xs text-on-surface-variant">
             {de.ai.kiStudio.conceptHint}
@@ -239,7 +239,7 @@ export function KiStudioPostCreator({
         </div>
 
         {/* Step 1: Upload */}
-        <div className="rounded-2xl border border-white/10 bg-surface-container-high p-5">
+        <div className="rounded-2xl border border-outline-soft bg-surface-container-high p-5">
           <div className="mb-4 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <StepBadge number={1} />
@@ -289,7 +289,7 @@ export function KiStudioPostCreator({
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="flex w-full flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-white/15 bg-white/5 py-12 transition hover:border-primary/40 hover:bg-white/10"
+              className="flex w-full flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-outline-soft bg-fill-soft py-12 transition hover:border-primary/40 hover:bg-fill-strong"
             >
               <Upload className="h-8 w-8 text-primary" />
               <span className="text-sm font-medium text-on-surface">
@@ -307,7 +307,7 @@ export function KiStudioPostCreator({
         </div>
 
         {/* Step 2: Generate variants */}
-        <div className="rounded-2xl border border-white/10 bg-surface-container-high p-5">
+        <div className="rounded-2xl border border-outline-soft bg-surface-container-high p-5">
           <div className="mb-4 flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <StepBadge number={2} />
@@ -360,7 +360,7 @@ export function KiStudioPostCreator({
                     className={`rounded-full px-4 py-1.5 text-xs font-semibold transition ${
                       selectedVariant === key
                         ? 'bg-on-surface text-surface'
-                        : 'bg-white/10 text-on-surface-variant hover:bg-white/15 hover:text-on-surface'
+                        : 'bg-fill-strong text-on-surface-variant hover:bg-fill-stronger hover:text-on-surface'
                     }`}
                   >
                     {de.ai.kiStudio.variant(key)}
@@ -403,7 +403,7 @@ export function KiStudioPostCreator({
         </div>
 
         {/* Step 3: Schedule */}
-        <div className="rounded-2xl border border-white/10 bg-surface-container-high p-5">
+        <div className="rounded-2xl border border-outline-soft bg-surface-container-high p-5">
           <div className="mb-4 flex items-center gap-3">
             <StepBadge number={3} />
             <h3 className="text-sm font-semibold text-on-surface">
@@ -422,7 +422,7 @@ export function KiStudioPostCreator({
                 value={scheduleDate}
                 onChange={(e) => setScheduleDate(e.target.value)}
                 disabled={!hasVariants}
-                className="bg-white/5"
+                className="bg-fill-soft"
               />
             </div>
             <div className="space-y-1.5">
@@ -435,7 +435,7 @@ export function KiStudioPostCreator({
                 value={scheduleTime}
                 onChange={(e) => setScheduleTime(e.target.value)}
                 disabled={!hasVariants}
-                className="bg-white/5"
+                className="bg-fill-soft"
               />
               <p className="text-[10px] font-medium text-primary">
                 {de.ai.kiStudio.peakEngagement}

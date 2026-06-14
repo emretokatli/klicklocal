@@ -30,7 +30,7 @@ export function ReelCopilotPanel({
 
   return (
     <div className="glass-card space-y-4 rounded-2xl p-5">
-      <div className="flex items-center gap-2 border-b border-white/10 pb-3">
+      <div className="flex items-center gap-2 border-b border-outline-soft pb-3">
         <Sparkles className="h-5 w-5 text-primary" />
         <h2 className="text-base font-semibold">{copy.setupTitle}</h2>
       </div>
