@@ -30,9 +30,16 @@ export default function SocialAccountsPage() {
     enabled: workspaceId !== null,
   });
 
+  const facebookStatusQuery = useQuery({
+    queryKey: ['facebook', 'status', workspaceId],
+    queryFn: () => socialAccountsService.facebookStatus(workspaceId!),
+    enabled: workspaceId !== null,
+  });
+
   useEffect(() => {
     const instagramResult = searchParams.get('instagram');
     const tiktokResult = searchParams.get('tiktok');
+    const facebookResult = searchParams.get('facebook');
     const message = searchParams.get('message');
 
     const timer = setTimeout(() => {
@@ -52,6 +59,15 @@ export default function SocialAccountsPage() {
         });
       } else if (tiktokResult === 'error') {
         setError(message ?? de.socialAccounts.tiktok.errorOAuth);
+      }
+
+      if (facebookResult === 'connected') {
+        setToast(de.socialAccounts.facebook.successConnected);
+        void queryClient.invalidateQueries({
+          queryKey: ['facebook', 'status', workspaceId],
+        });
+      } else if (facebookResult === 'error') {
+        setError(message ?? de.socialAccounts.facebook.errorOAuth);
       }
     }, 0);
 
@@ -95,6 +111,14 @@ export default function SocialAccountsPage() {
           workspaceId={workspaceId}
           labels={de.socialAccounts.tiktok}
           statusQuery={tiktokStatusQuery}
+          onToast={setToast}
+          onError={setError}
+        />
+        <SocialProviderConnectionCard
+          provider="facebook"
+          workspaceId={workspaceId}
+          labels={de.socialAccounts.facebook}
+          statusQuery={facebookStatusQuery}
           onToast={setToast}
           onError={setError}
         />

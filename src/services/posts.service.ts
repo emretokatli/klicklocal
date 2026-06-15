@@ -54,6 +54,21 @@ export const postsService = {
     }).then((d) => d.post);
   },
 
+  /** Create + schedule the same content to multiple platforms in one call. */
+  scheduleMulti(
+    workspaceId: number,
+    payload: {
+      content: string;
+      scheduled_at: string;
+      social_account_ids: number[];
+      media_id?: number | null;
+    },
+  ) {
+    return apiPost<{ post: Post }>('/posts/schedule', payload).then(
+      (d) => d.post,
+    );
+  },
+
   quickPublish(
     workspaceId: number,
     data: { platform: string; content: string; media_id?: number | null },
