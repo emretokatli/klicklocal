@@ -5,6 +5,7 @@ import { useState, type ReactNode } from 'react';
 
 import { createQueryClient } from '@/lib/query-client';
 import { AuthProvider } from '@/store/auth-context';
+import { PaywallProvider } from '@/store/paywall-context';
 import { ThemeProvider } from '@/store/theme-context';
 
 export function AppProviders({ children }: { children: ReactNode }) {
@@ -13,7 +14,9 @@ export function AppProviders({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <PaywallProvider>{children}</PaywallProvider>
+        </AuthProvider>
       </QueryClientProvider>
     </ThemeProvider>
   );

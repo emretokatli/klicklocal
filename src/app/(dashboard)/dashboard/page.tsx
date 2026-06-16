@@ -5,6 +5,8 @@ import Link from 'next/link';
 
 import { AnalysisCard } from '@/components/dashboard/AnalysisCard';
 import { ContentCard } from '@/components/dashboard/ContentCard';
+import { GettingStartedChecklist } from '@/components/dashboard/GettingStartedChecklist';
+import { OnboardingDraftPosts } from '@/components/dashboard/OnboardingDraftPosts';
 import {
   PlanCard,
   PlanUpgradeFallback,
@@ -18,6 +20,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useKpi } from '@/hooks/use-analytics';
 import { usePosts } from '@/hooks/use-posts';
 import { de } from '@/lib/i18n/de';
+import { mergeOnboardingData } from '@/lib/onboarding-wizard/constants';
 import { postsService } from '@/services/posts.service';
 import { useAuth } from '@/store/auth-context';
 import { useWorkspace } from '@/store/workspace-context';
@@ -38,6 +41,12 @@ export default function DashboardPage() {
   const stats = postsQuery.data
     ? postsService.computeStats(postsQuery.data)
     : null;
+
+  // "Publish first post" jumps to the editable onboarding drafts when present,
+  // otherwise to the AI studio (the dependable post-creation entry point).
+  const hasDraftPosts =
+    mergeOnboardingData(session?.onboarding_data).samplePosts.length > 0;
+  const firstPostHref = hasDraftPosts ? '#erste-posts' : '/ai';
 
   return (
     <div>
@@ -68,8 +77,22 @@ export default function DashboardPage() {
 
       {workspaceId && (
         <>
+          {/* Getting-started checklist (top of dashboard). Renders nothing once
+              all tasks are done or the user dismisses it. */}
+          <GettingStartedChecklist
+            workspaceId={workspaceId}
+            firstPostHref={firstPostHref}
+          />
+
           {/* What to do today — derived from plan + top trend */}
           <TodaySummary workspaceId={workspaceId} />
+
+          {/* Editable drafts from onboarding's AI sample posts (renders nothing
+              when none exist). Publishing routes through the gated quick-publish. */}
+          <OnboardingDraftPosts
+            workspaceId={workspaceId}
+            onboardingData={session?.onboarding_data}
+          />
 
           {/* 4-value hub: collapses to one column on mobile */}
           <div className="grid gap-6 lg:grid-cols-2">

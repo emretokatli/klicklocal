@@ -11,11 +11,12 @@ import { ApiClientError } from '@/services/api-client';
 import { socialAccountsService } from '@/services/social-accounts.service';
 import type { SocialAccount } from '@/types/api';
 
-type SupportedProvider = 'instagram' | 'tiktok';
+type SupportedProvider = 'instagram' | 'tiktok' | 'facebook';
 
 type ProviderLabels =
   | typeof de.socialAccounts.instagram
-  | typeof de.socialAccounts.tiktok;
+  | typeof de.socialAccounts.tiktok
+  | typeof de.socialAccounts.facebook;
 
 type ConnectionStatus = {
   connected: boolean;
@@ -37,6 +38,7 @@ const connectFns: Record<
 > = {
   instagram: socialAccountsService.instagramConnect,
   tiktok: socialAccountsService.tiktokConnect,
+  facebook: socialAccountsService.facebookConnect,
 };
 
 const disconnectFns: Record<
@@ -45,6 +47,7 @@ const disconnectFns: Record<
 > = {
   instagram: socialAccountsService.instagramDisconnect,
   tiktok: socialAccountsService.tiktokDisconnect,
+  facebook: socialAccountsService.facebookDisconnect,
 };
 
 export function SocialProviderConnectionCard({

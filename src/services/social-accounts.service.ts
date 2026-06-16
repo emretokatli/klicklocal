@@ -1,7 +1,9 @@
 import { apiGet, apiPost } from '@/services/api-client';
 import type {
+  FacebookConnectionStatus,
   InstagramConnectionStatus,
   TikTokConnectionStatus,
+  TikTokCreatorInfoResponse,
 } from '@/types/api';
 
 function withWorkspace(workspaceId: number, path: string) {
@@ -42,6 +44,30 @@ export const socialAccountsService = {
   tiktokDisconnect(workspaceId: number) {
     return apiPost<null>(
       withWorkspace(workspaceId, '/social-accounts/tiktok/disconnect'),
+    );
+  },
+
+  tiktokCreatorInfo(workspaceId: number) {
+    return apiGet<TikTokCreatorInfoResponse>(
+      withWorkspace(workspaceId, '/social-accounts/tiktok/creator-info'),
+    );
+  },
+
+  facebookConnect(workspaceId: number) {
+    return apiGet<{ authorization_url: string }>(
+      withWorkspace(workspaceId, '/social-accounts/facebook/connect'),
+    ).then((d) => d.authorization_url);
+  },
+
+  facebookStatus(workspaceId: number) {
+    return apiGet<FacebookConnectionStatus>(
+      withWorkspace(workspaceId, '/social-accounts/facebook/status'),
+    );
+  },
+
+  facebookDisconnect(workspaceId: number) {
+    return apiPost<null>(
+      withWorkspace(workspaceId, '/social-accounts/facebook/disconnect'),
     );
   },
 };

@@ -492,6 +492,44 @@ export type TikTokConnectionStatus = {
   account: SocialAccount | null;
 };
 
+export type FacebookConnectionStatus = {
+  connected: boolean;
+  account: SocialAccount | null;
+};
+
+export type TikTokPrivacyLevel =
+  | 'PUBLIC_TO_EVERYONE'
+  | 'MUTUAL_FOLLOW_FRIENDS'
+  | 'FOLLOWER_OF_CREATOR'
+  | 'SELF_ONLY';
+
+export type TikTokCreatorInfo = {
+  privacy_level_options: TikTokPrivacyLevel[];
+  comment_disabled: boolean;
+  duet_disabled: boolean;
+  stitch_disabled: boolean;
+  max_video_post_duration_sec?: number | null;
+  creator_username?: string | null;
+  creator_nickname?: string | null;
+  creator_avatar_url?: string | null;
+};
+
+export type TikTokCreatorInfoResponse = {
+  audited: boolean;
+  creator_info: TikTokCreatorInfo;
+};
+
+/** Per-post TikTok publishing options sent with quick-publish / post create. */
+export type TikTokPublishOptions = {
+  privacy_level: TikTokPrivacyLevel;
+  disable_comment: boolean;
+  disable_duet: boolean;
+  disable_stitch: boolean;
+  /** Commercial content disclosure is enabled (paid partnership / promotion). */
+  brand_content_toggle: boolean;
+  brand_organic_toggle: boolean;
+};
+
 export type SocialProviderKey = 'facebook' | 'instagram' | 'tiktok';
 
 export type SocialProviderStatus = 'ready' | 'setup' | 'disabled';

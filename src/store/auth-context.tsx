@@ -40,6 +40,9 @@ const getFalse = () => false;
 
 function resolvePostAuthPath(session: AuthSession): string {
   if (session.is_platform_admin) return '/admin/dashboard';
+  // Customers who haven't finished the multi-step wizard resume it instead of
+  // landing on a dashboard they can't fully use yet.
+  if (!session.onboarding_completed) return '/onboarding';
   return '/dashboard';
 }
 
