@@ -29,6 +29,14 @@ export const de = {
     settings: 'Einstellungen',
     socialAccounts: 'Social Accounts',
     comments: 'Kommentare',
+    collapseSidebar: 'Seitenleiste einklappen',
+    expandSidebar: 'Seitenleiste ausklappen',
+  },
+  footer: {
+    version: (v: string) => `Version ${v}`,
+    copyright: (year: number) => `© ${year} Klicklocal`,
+    madeWithPrefix: 'Made with',
+    madeWithSuffix: 'in Augsburg.',
   },
   header: {
     openMenu: 'Menü öffnen',
@@ -134,6 +142,15 @@ export const de = {
       description:
         'Wähle aus, was Klicklocal zuerst für dein Unternehmen lösen soll.',
     },
+    samplePosts: {
+      title: 'Deine ersten 3 Posts sind fertig 🎉',
+      description:
+        'Basierend auf der Analyse deiner Website haben die Helper diese Instagram-Posts für dich erstellt — direkt einsatzbereit und jederzeit anpassbar.',
+      postLabel: (n: number) => `Post ${n}`,
+      badge: 'Vorschlag',
+      hashtagsLabel: 'Hashtags',
+      imageIdeaLabel: 'Bildidee',
+    },
     account: {
       title: 'Fast geschafft — lege dein Passwort fest',
       description:
@@ -159,6 +176,34 @@ export const de = {
       scheduled: 'Geplant',
       published: 'Veröffentlicht',
       failed: 'Fehlgeschlagen',
+    },
+    checklist: {
+      title: 'Erste Schritte',
+      description: 'Erledige diese 3 Schritte, um durchzustarten.',
+      progress: (done: number, total: number) => `${done} / ${total} erledigt`,
+      dismiss: 'Vorerst ausblenden',
+      tasks: {
+        firstPost: 'Ersten Post veröffentlichen',
+        weekPlan: 'Wochenplan erstellen',
+        connectSocial: 'Social-Konto verbinden',
+      },
+    },
+    draftPosts: {
+      title: 'Deine ersten Posts',
+      description:
+        'Aus deiner Website-Analyse erstellt. Bearbeite Text und Hashtags und veröffentliche, wenn du bereit bist.',
+      postLabel: (n: number) => `Post ${n}`,
+      badge: 'Entwurf',
+      captionLabel: 'Text',
+      hashtagsLabel: 'Hashtags',
+      hashtagsPlaceholder: '#beispiel #localbusiness',
+      imageIdeaLabel: 'Bildidee',
+      publishCta: 'Auf Instagram veröffentlichen',
+      publishing: 'Wird veröffentlicht …',
+      publishSuccess: 'Post wird veröffentlicht!',
+      publishFailed: 'Veröffentlichung fehlgeschlagen.',
+      noAccount: 'Verbinde zuerst ein Instagram-Konto, um zu veröffentlichen.',
+      noAccountCta: 'Konto verbinden',
     },
     usageSummary: {
       title: 'Dein Verbrauch diesen Monat',
@@ -619,6 +664,34 @@ export const de = {
       subscribe: 'Abonnement konnte nicht gestartet werden.',
       cancel: 'Kündigung fehlgeschlagen.',
     },
+  },
+  paywall: {
+    eyebrow: 'PREMIUM FREISCHALTEN',
+    title: 'Hol mehr aus Klicklocal raus',
+    reasons: {
+      publish:
+        'Um deinen Beitrag zu veröffentlichen, brauchst du ein aktives Abo.',
+      ai: 'Um KI-Inhalte zu erstellen, brauchst du ein aktives Abo.',
+      media: 'Um Medien hochzuladen, brauchst du ein aktives Abo.',
+      default: 'Diese Funktion ist Teil deines Klicklocal-Abos.',
+    },
+    subtitle:
+      'Wähle einen Tarif und lass deinen KI-Copilot ab sofort für dich arbeiten.',
+    benefitsTitle: 'Das schaltest du frei',
+    benefits: [
+      'Beiträge planen & automatisch veröffentlichen',
+      'KI-Captions, Hashtags & Content-Pläne',
+      'Instagram, TikTok & Facebook verbinden',
+      'KI-Antworten auf deine Kommentare',
+      'Insights & Performance-Tracking',
+    ],
+    plansTitle: 'Verfügbare Tarife',
+    perMonth: '/ Monat',
+    trialSuffix: (days: number) => `inkl. ${days} Tage gratis`,
+    plansLoading: 'Tarife werden geladen …',
+    plansFallback: 'Alle Tarife und Preise findest du in der Abrechnung.',
+    choosePlan: 'Plan wählen',
+    dismiss: 'Vielleicht später',
   },
   socialAccounts: {
     title: 'Social Accounts',

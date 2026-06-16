@@ -8,6 +8,8 @@ import {
   LayoutDashboard,
   MessageCircle,
   Package,
+  PanelLeftClose,
+  PanelLeftOpen,
   Plug,
   Receipt,
   Settings,
@@ -16,6 +18,7 @@ import {
   Sparkles,
   SquarePen,
   Tag,
+  User,
   Users,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
@@ -30,6 +33,8 @@ import { cn } from '@/lib/utils';
 import { useAppMode } from '@/store/app-mode-context';
 import { useAuth } from '@/store/auth-context';
 import type { UserAbilities } from '@/types/api';
+
+const APP_VERSION = process.env.NEXT_PUBLIC_APP_VERSION ?? '0.0.0';
 
 type NavItem = {
   href: string;
@@ -104,7 +109,15 @@ function buildAdminNav(abilities: UserAbilities | null): NavItem[] {
   return items;
 }
 
-export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
+export function Sidebar({
+  onNavigate,
+  collapsed = false,
+  onToggleCollapse,
+}: {
+  onNavigate?: () => void;
+  collapsed?: boolean;
+  onToggleCollapse?: () => void;
+}) {
   const pathname = usePathname();
   const { abilities, isPlatformAdmin } = useAuth();
   const { mode, setMode, canAccessAdmin } = useAppMode();
@@ -112,40 +125,85 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const nav = mode === 'admin' ? buildAdminNav(abilities) : customerNav;
 
   return (
-    <aside className="flex h-full w-60 flex-col border-r border-outline-soft bg-surface-container-low">
-      <div className="flex h-14 items-center gap-2.5 border-b border-outline-soft px-5">
-        <Logo size={32} />
-        <span className="font-semibold tracking-tight text-on-surface">
-          Klicklocal
-        </span>
+    <aside
+      className={cn(
+        'flex h-full flex-col border-r border-outline-soft bg-surface-container-low transition-[width] duration-200',
+        collapsed ? 'w-16' : 'w-60',
+      )}
+    >
+      <div
+        className={cn(
+          'flex h-14 items-center gap-2.5 border-b border-outline-soft',
+          collapsed ? 'justify-center px-2' : 'px-5',
+        )}
+      >
+        {!collapsed && (
+          <>
+            <Logo size={32} />
+            <span className="font-semibold tracking-tight text-on-surface">
+              Klicklocal
+            </span>
+          </>
+        )}
+        {onToggleCollapse && (
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className={cn('text-on-surface-variant', !collapsed && 'ml-auto')}
+            onClick={onToggleCollapse}
+            title={collapsed ? de.nav.expandSidebar : de.nav.collapseSidebar}
+            aria-label={collapsed ? de.nav.expandSidebar : de.nav.collapseSidebar}
+          >
+            {collapsed ? (
+              <PanelLeftOpen className="h-4 w-4" />
+            ) : (
+              <PanelLeftClose className="h-4 w-4" />
+            )}
+          </Button>
+        )}
       </div>
 
       {canAccessAdmin && (
         <div className="border-b border-outline-soft p-3">
-          <p className="mb-2 px-1 text-xs font-medium uppercase tracking-wide text-on-surface-variant">
-            {de.admin.modeLabel}
-          </p>
-          <div className="grid grid-cols-2 gap-1 rounded-xl bg-fill-soft p-1">
+          {!collapsed && (
+            <p className="mb-2 px-1 text-xs font-medium uppercase tracking-wide text-on-surface-variant">
+              {de.admin.modeLabel}
+            </p>
+          )}
+          <div
+            className={cn(
+              'gap-1 rounded-xl bg-fill-soft p-1',
+              collapsed ? 'flex flex-col' : 'grid grid-cols-2',
+            )}
+          >
             <Button
               type="button"
               variant={mode === 'customer' ? 'default' : 'ghost'}
               size="sm"
-              className="h-8 text-xs"
+              className={cn('h-8 text-xs', collapsed && 'w-full px-0')}
               onClick={() => setMode('customer')}
+              title={collapsed ? de.admin.modeCustomer : undefined}
+              aria-label={collapsed ? de.admin.modeCustomer : undefined}
             >
-              {de.admin.modeCustomer}
+              {collapsed ? <User className="h-4 w-4" /> : de.admin.modeCustomer}
             </Button>
             <Button
               type="button"
               variant={mode === 'admin' ? 'default' : 'ghost'}
               size="sm"
-              className="h-8 text-xs"
+              className={cn('h-8 text-xs', collapsed && 'w-full px-0')}
               onClick={() => setMode('admin')}
+              title={collapsed ? de.admin.modeAdmin : undefined}
+              aria-label={collapsed ? de.admin.modeAdmin : undefined}
             >
-              {de.admin.modeAdmin}
+              {collapsed ? <Shield className="h-4 w-4" /> : de.admin.modeAdmin}
             </Button>
           </div>
-          {isPlatformAdmin && mode === 'admin' && abilities?.platform_roles.length ? (
+          {!collapsed &&
+          isPlatformAdmin &&
+          mode === 'admin' &&
+          abilities?.platform_roles.length ? (
             <p className="mt-2 px-1 text-xs text-on-surface-variant">
               {abilities.platform_roles.join(', ')}
             </p>
@@ -162,19 +220,35 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
               key={href}
               href={href}
               onClick={onNavigate}
+              title={collapsed ? label : undefined}
+              aria-label={collapsed ? label : undefined}
               className={cn(
-                'flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-colors',
+                'flex items-center gap-3 rounded-xl py-2 text-sm font-medium transition-colors',
+                collapsed ? 'justify-center px-0' : 'px-3',
                 active
                   ? 'bg-primary/15 text-primary'
                   : 'text-on-surface-variant hover:bg-fill-soft hover:text-on-surface',
               )}
             >
               <Icon className="h-4 w-4 shrink-0" />
-              {label}
+              {!collapsed && label}
             </Link>
           );
         })}
       </nav>
+
+      <div
+        className={cn(
+          'border-t border-outline-soft px-3 py-3 text-xs text-on-surface-variant',
+          collapsed ? 'text-center' : 'px-4',
+        )}
+      >
+        {collapsed ? (
+          <span title={de.footer.version(APP_VERSION)}>v{APP_VERSION}</span>
+        ) : (
+          de.footer.version(APP_VERSION)
+        )}
+      </div>
     </aside>
   );
 }

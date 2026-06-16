@@ -4,6 +4,7 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from 'axios';
 
+import { emitPaywall } from '@/lib/paywall-bus';
 import { clearToken, getStoredWorkspaceId, getToken } from '@/lib/token';
 import type { ApiError, ApiSuccess } from '@/types/api';
 
@@ -85,6 +86,14 @@ apiClient.interceptors.response.use(
       ) {
         window.location.href = '/login';
       }
+    }
+
+    // 402 = workspace has no active subscription (subscription.required /
+    // feature.quota). Unlike 401 we do NOT clear the token or redirect — we
+    // surface the central paywall modal and let the original error propagate so
+    // callers can stop gracefully. The modal re-opens on every subsequent 402.
+    if (error.response?.status === 402) {
+      emitPaywall();
     }
 
     const payload = error.response?.data;

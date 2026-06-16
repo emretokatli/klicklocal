@@ -7,6 +7,7 @@ import { ArrowLeft, Loader2 } from 'lucide-react';
 
 import { OnboardingShell } from '@/components/onboarding/OnboardingShell';
 import { OptionChip, OptionSection } from '@/components/onboarding/OptionChip';
+import { SamplePostsPreview } from '@/components/onboarding/steps/SamplePostsPreview';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -121,6 +122,8 @@ export function OnboardingWizard() {
         return true;
       case 'start':
         return data.primaryGoal !== '';
+      case 'sample-posts':
+        return true;
       case 'account':
         return (
           data.password.trim().length >= 8 &&
@@ -141,11 +144,27 @@ export function OnboardingWizard() {
   );
 
   const goBack = useCallback(() => {
-    const prev = ONBOARDING_WIZARD_STEPS[currentIndex - 1];
+    let prevIndex = currentIndex - 1;
+    // Skip the sample-posts step on the way back if there are no posts to show.
+    if (
+      ONBOARDING_WIZARD_STEPS[prevIndex] === 'sample-posts' &&
+      data.samplePosts.length === 0
+    ) {
+      prevIndex -= 1;
+    }
+    const prev = ONBOARDING_WIZARD_STEPS[prevIndex];
     if (!prev || step === 'check-website') return;
     setError(null);
     setStep(prev);
-  }, [currentIndex, step]);
+  }, [currentIndex, data.samplePosts.length, step]);
+
+  // Gracefully skip the sample-posts step when the analysis returned nothing
+  // (e.g. analysis failed or was never run) — never block the user here.
+  useEffect(() => {
+    if (step !== 'sample-posts' || data.samplePosts.length > 0) return;
+    const timer = setTimeout(() => { setStep('account'); }, 0);
+    return () => { clearTimeout(timer); };
+  }, [data.samplePosts.length, step]);
 
   const runWebsiteAnalysis = useCallback(async () => {
     if (data.description.trim()) {
@@ -169,6 +188,7 @@ export function OnboardingWizard() {
         uniqueValueProposition: analysis.unique_value_proposition,
         additionalNotes: analysis.additional_notes,
         city: analysis.city ?? '',
+        samplePosts: analysis.sample_posts ?? [],
       };
 
       patch(merged);
@@ -409,6 +429,10 @@ export function OnboardingWizard() {
           value={data.primaryGoal}
           onChange={(value) => patch({ primaryGoal: value })}
         />
+      )}
+
+      {step === 'sample-posts' && (
+        <SamplePostsPreview posts={data.samplePosts} />
       )}
 
       {step === 'account' && (

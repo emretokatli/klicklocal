@@ -84,6 +84,7 @@ export type OnboardingWizardStep =
   | 'business-special'
   | 'additional'
   | 'start'
+  | 'sample-posts'
   | 'account';
 
 export const ONBOARDING_WIZARD_STEPS: OnboardingWizardStep[] = [
@@ -98,8 +99,15 @@ export const ONBOARDING_WIZARD_STEPS: OnboardingWizardStep[] = [
   'business-special',
   'additional',
   'start',
+  'sample-posts',
   'account',
 ];
+
+export type SamplePost = {
+  caption: string;
+  hashtags: string[];
+  suggested_image_idea: string;
+};
 
 export type OnboardingWizardData = {
   firstName: string;
@@ -116,6 +124,7 @@ export type OnboardingWizardData = {
   additionalNotes: string;
   primaryGoal: OnboardingPrimaryGoal | '';
   city: string;
+  samplePosts: SamplePost[];
   password: string;
   passwordConfirmation: string;
 };
@@ -135,6 +144,7 @@ export const INITIAL_ONBOARDING_WIZARD_DATA: OnboardingWizardData = {
   additionalNotes: '',
   primaryGoal: '',
   city: '',
+  samplePosts: [],
   password: '',
   passwordConfirmation: '',
 };
@@ -145,6 +155,7 @@ export type WebsiteAnalysisResult = {
   unique_value_proposition: string;
   additional_notes: string;
   city: string | null;
+  sample_posts?: SamplePost[];
 };
 
 export function isOnboardingWizardStep(value: string): value is OnboardingWizardStep {
@@ -158,6 +169,29 @@ function asString(value: unknown): string {
 function asStringArray(value: unknown): OnboardingSocialChannel[] {
   if (!Array.isArray(value)) return [];
   return value.filter((item): item is OnboardingSocialChannel => typeof item === 'string');
+}
+
+function asPlainStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter((item): item is string => typeof item === 'string');
+}
+
+function asSamplePosts(value: unknown): SamplePost[] {
+  if (!Array.isArray(value)) return [];
+
+  return value
+    .map((item): SamplePost | null => {
+      if (typeof item !== 'object' || item === null) return null;
+      const record = item as Record<string, unknown>;
+      const caption = asString(record.caption);
+      if (caption.trim() === '') return null;
+      return {
+        caption,
+        hashtags: asPlainStringArray(record.hashtags),
+        suggested_image_idea: asString(record.suggested_image_idea),
+      };
+    })
+    .filter((post): post is SamplePost => post !== null);
 }
 
 export function mergeOnboardingData(
@@ -180,6 +214,7 @@ export function mergeOnboardingData(
     additionalNotes: asString(raw.additionalNotes),
     primaryGoal: asString(raw.primaryGoal) as OnboardingWizardData['primaryGoal'],
     city: asString(raw.city),
+    samplePosts: asSamplePosts(raw.samplePosts),
     password: asString(raw.password),
     passwordConfirmation: asString(raw.passwordConfirmation),
   };

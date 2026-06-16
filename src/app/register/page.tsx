@@ -1,7 +1,7 @@
-import { SimpleRegisterForm } from '@/components/auth/SimpleRegisterForm';
+import { EmailRegisterForm } from '@/components/auth/EmailRegisterForm';
 
 import '../auth.css';
 
 export default function RegisterPage() {
-  return <SimpleRegisterForm />;
+  return <EmailRegisterForm />;
 }
